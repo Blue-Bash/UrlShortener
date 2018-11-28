@@ -15,6 +15,16 @@ buildscript {
 allprojects {
     apply plugin: 'idea'
     apply plugin: 'eclipse'
+    apply plugin: 'maven'
+    apply plugin: 'jacoco'
+    
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+
+        maven { url "http://repo1.maven.org/maven2/" }
+    }
 }
 
 // Instructions for each sub project
@@ -29,6 +39,8 @@ subprojects {
     repositories {
         mavenCentral()
     }
+    
+    test.useTestNG()
 }
 
 project(':common') {
@@ -100,4 +112,25 @@ project ('team') {
     dependencies {
         compile project(':common')
     }
+}
+
+
+
+task codeCoverageReport(type: JacocoReport) {
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+
+    subprojects.each {
+        sourceSets it.sourceSets.main
+    }
+
+    reports {
+        xml.enabled true
+        xml.destination "${buildDir}/reports/jacoco/report.xml"
+        html.enabled false
+        csv.enabled false
+    }
+}
+
+codeCoverageReport.dependsOn {
+    subprojects*.test
 }
