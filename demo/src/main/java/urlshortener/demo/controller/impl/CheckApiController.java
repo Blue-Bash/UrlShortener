@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import urlshortener.demo.controller.CheckApi;
+import urlshortener.demo.domain.URIItem;
 import urlshortener.demo.repository.URIRepository;
 import urlshortener.demo.utils.CheckAlive;
 
@@ -39,13 +40,14 @@ public class CheckApiController implements CheckApi {
 
     public ResponseEntity<Void> checkURI(@ApiParam(value = "",required=true) @PathVariable("id") String id) {
         String accept = request.getHeader("Accept");
-        //String uri = uriService.get(id);      //Esta línea deberá descomentarse cuando esté implementada la BD
-        String uri = "https://google.com";       //Se recupera la URI asociada a al parámetro "id"
+        //URIItem uri = uriService.get(id);         //Esta línea deberá descomentarse cuando esté implementada la BD
+        URIItem uri = new URIItem();                //Se recupera la URI asociada a al parámetro "id"
+        uri.setRedirection("https://google.com");
 
         CheckAlive c = new CheckAlive();
 
         try {
-            HttpStatus httpStatus = HttpStatus.valueOf(c.makeRequest(uri));
+            HttpStatus httpStatus = HttpStatus.valueOf(c.makeRequest(uri.getRedirection()));
 
             return new ResponseEntity<Void>(httpStatus);
 
