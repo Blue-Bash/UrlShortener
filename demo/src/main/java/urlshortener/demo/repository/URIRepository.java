@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface URIRepository extends IRepository<String, URIItem> {
     List<URIItem> comprobar();
+
+    URIItem obtenerUri(String id);
 }

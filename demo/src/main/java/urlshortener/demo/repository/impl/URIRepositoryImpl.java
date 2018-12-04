@@ -15,4 +15,11 @@ public class URIRepositoryImpl extends AbstractRepository<String, URIItem> imple
     public List<URIItem> comprobar() {
         return new ArrayList<>();
     }
+
+    @Override
+    public URIItem obtenerUri(String id) {
+        URIItem uri = new URIItem();                //Se recupera la URI asociada a al parámetro "id"
+        uri.setRedirection("https://google.com");
+        return uri;
+    }
 }
