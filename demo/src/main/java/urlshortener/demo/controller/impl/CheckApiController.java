@@ -35,7 +35,7 @@ public class CheckApiController implements CheckApi {
 
     public ResponseEntity<Void> checkURI(@ApiParam(value = "",required=true) @PathVariable("id") String id) {
         String accept = request.getHeader("Accept");
-        String uri = "";    //Se recupera la URI asociada a al parámetro "id"
+        String uri = "https://google.es";    //Se recupera la URI asociada a al parámetro "id"
         CheckAlive c = new CheckAlive();
 
         try {

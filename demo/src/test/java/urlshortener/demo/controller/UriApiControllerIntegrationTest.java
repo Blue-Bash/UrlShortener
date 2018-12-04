@@ -32,7 +32,7 @@ public class UriApiControllerIntegrationTest {
     }
 
     @Test
-    public void changeURITest() throws Exception {
+    public void changeURITest() {
         URICreate body = new URICreate();
         String name = "name_example";
         ResponseEntity<URIItem> responseEntity = api.changeURI(body, name);
@@ -40,21 +40,22 @@ public class UriApiControllerIntegrationTest {
     }
 
     @Test
-    public void createURITest() throws Exception {
+    public void createURITest() {
         URICreate body = new URICreate();
+        body.setUri("https://google.es");
         ResponseEntity<URIItem> responseEntity = api.createURI(body);
-        assertEquals(HttpStatus.TEMPORARY_REDIRECT, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
     }
 
     @Test
-    public void deleteURITest() throws Exception {
+    public void deleteURITest() {
         String id = "id_example";
         ResponseEntity<Void> responseEntity = api.deleteURI(id);
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 
     @Test
-    public void getURITestError() throws Exception {
+    public void getURITestError() {
         String id = "id_example";
         try {
             api.getURI(id);
@@ -63,7 +64,7 @@ public class UriApiControllerIntegrationTest {
     }
 
     @Test
-    public void getURITestOK() throws Exception {
+    public void getURITestOK() {
         String id = "id_example";
         service.add((URIItem) new URIItem().id(id).redirection("http://google.es").hashpass("abc"));
         try {
