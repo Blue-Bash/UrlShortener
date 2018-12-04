@@ -9,7 +9,6 @@ import urlshortener.demo.repository.URIRepository;
 import urlshortener.demo.utils.CheckAlive;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2018-11-21T05:15:43.072Z[GMT]")
