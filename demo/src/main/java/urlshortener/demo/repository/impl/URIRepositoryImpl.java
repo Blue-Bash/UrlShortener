@@ -2,6 +2,7 @@ package urlshortener.demo.repository.impl;
 
 import org.springframework.stereotype.Repository;
 import urlshortener.demo.domain.URIItem;
+import urlshortener.demo.domain.URIUpdate;
 import urlshortener.demo.repository.AbstractRepository;
 import urlshortener.demo.repository.URIRepository;
 
@@ -26,6 +27,11 @@ public class URIRepositoryImpl extends AbstractRepository<String, URIItem> imple
     @Override
     public void saveURI(URIItem uri) {
         //This function will save the "uri" object in the DB
+    }
+
+    @Override
+    public void updateURI(URIUpdate uri) {
+        //This function will update the "hashpass" uri name
     }
 
 

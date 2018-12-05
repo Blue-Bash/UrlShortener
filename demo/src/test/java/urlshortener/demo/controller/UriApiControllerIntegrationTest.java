@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
+import urlshortener.demo.domain.URIUpdate;
 import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.URIRepository;
 
@@ -33,7 +34,7 @@ public class UriApiControllerIntegrationTest {
 
     @Test
     public void changeURITest() {
-        URICreate body = new URICreate();
+        URIUpdate body = new URIUpdate();
         String name = "name_example";
         ResponseEntity<URIItem> responseEntity = api.changeURI(body, name);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());

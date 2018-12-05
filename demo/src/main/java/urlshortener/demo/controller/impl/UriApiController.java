@@ -11,9 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import urlshortener.demo.controller.UriApi;
-import urlshortener.demo.domain.ErrorItem;
 import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
+import urlshortener.demo.domain.URIUpdate;
 import urlshortener.demo.utils.CheckAlive;
 import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.URIRepository;
@@ -43,13 +43,40 @@ public class UriApiController implements UriApi {
         this.uriService = uriService;
     }
 
-    public ResponseEntity<URIItem> changeURI(@ApiParam(value = "Optional description in *Markdown*" ,required=true )  @Valid @RequestBody URICreate body,@ApiParam(value = "",required=true) @PathVariable("name") String name) {
+    public ResponseEntity<URIItem> changeURI(@ApiParam(value = "Optional description in *Markdown*" ,required=true )  @Valid @RequestBody URIUpdate body, @ApiParam(value = "",required=true) @PathVariable("name") String name) {
         String accept = request.getHeader("Accept");
+        CheckAlive c = new CheckAlive();
 
-        ErrorItem error = new ErrorItem();
-        error.setErrorInfo("This is a test error");        
+        URL url = null;
+        HttpStatus httpStatus = HttpStatus.I_AM_A_TEAPOT;
 
-        return new ResponseEntity<URIItem>(HttpStatus.BAD_REQUEST);
+        String redirection = "https://null.es"; //Se recupera de la BD la URI que corresponde al hashpass recibido
+
+        URIItem resultado = new URIItem();
+        resultado.setRedirection(redirection);
+        resultado.setHashpass(body.getHashpass());
+        resultado.setId(body.getNewName());
+
+        try {
+            if (c.makeRequest(redirection) == 200) {
+                //Completar método, rellenar el objeto de tipo URIItem "uri"
+
+                uriService.updateURI(body);
+
+                return new ResponseEntity<URIItem>(resultado, HttpStatus.CREATED);
+            }
+            else {
+                return new ResponseEntity<URIItem>(resultado, HttpStatus.BAD_REQUEST);
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<URIItem>(resultado, HttpStatus.BAD_REQUEST);
     }
 
     public ResponseEntity<URIItem> createURI(@ApiParam(value = "URI" ,required=true )  @Valid @RequestBody URICreate body) {
