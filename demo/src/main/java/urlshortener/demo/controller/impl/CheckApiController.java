@@ -40,7 +40,7 @@ public class CheckApiController implements CheckApi {
 
     public ResponseEntity<Void> checkURI(@ApiParam(value = "",required=true) @PathVariable("id") String id) {
         String accept = request.getHeader("Accept");
-        URIItem uri = uriService.obtenerUri(id);         //Esta línea deberá descomentarse cuando esté implementada la BD
+        URIItem uri = uriService.obtainURI(id);         //Esta línea deberá descomentarse cuando esté implementada la BD
 
         CheckAlive c = new CheckAlive();
 

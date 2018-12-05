@@ -72,6 +72,8 @@ public class UriApiController implements UriApi {
 
                 //Completar método, rellenar el objeto de tipo URIItem "uri"
 
+                uriService.saveURI(uri);
+
                 return new ResponseEntity<URIItem>(uri, HttpStatus.CREATED);
             }
             else {

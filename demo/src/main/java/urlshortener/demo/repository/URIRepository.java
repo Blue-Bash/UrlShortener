@@ -5,7 +5,9 @@ import urlshortener.demo.domain.URIItem;
 import java.util.List;
 
 public interface URIRepository extends IRepository<String, URIItem> {
-    List<URIItem> comprobar();
+    List<URIItem> checkURI();
 
-    URIItem obtenerUri(String id);
+    URIItem obtainURI(String id);
+
+    void saveURI(URIItem uri);
 }

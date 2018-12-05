@@ -30,7 +30,7 @@ public class checkSchedule {
         CheckAlive c = new CheckAlive();
 
         //HAY QUE CAMBIAR ESTE FRAGMENTO DE CÓDIGO Y RECUPERAR LA LISTA DE LA BD REAL
-        List<URIItem> uris = uriService.comprobar();
+        List<URIItem> uris = uriService.checkURI();
 
         log.info("Comienza el checkeo de las URI...");
         for (int i=0; i < uris.size(); i++){

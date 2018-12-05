@@ -12,14 +12,21 @@ import java.util.List;
 public class URIRepositoryImpl extends AbstractRepository<String, URIItem> implements URIRepository {
 
     @Override
-    public List<URIItem> comprobar() {
+    public List<URIItem> checkURI() {
         return new ArrayList<>();
     }
 
     @Override
-    public URIItem obtenerUri(String id) {
+    public URIItem obtainURI(String id) {
         URIItem uri = new URIItem();                //Se recupera la URI asociada a al parámetro "id"
         uri.setRedirection("https://google.com");
         return uri;
     }
+
+    @Override
+    public void saveURI(URIItem uri) {
+
+    }
+
+
 }
