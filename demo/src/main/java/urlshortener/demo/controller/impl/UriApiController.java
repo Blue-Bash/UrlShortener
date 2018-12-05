@@ -59,9 +59,9 @@ public class UriApiController implements UriApi {
         URL url = null;
         HttpStatus httpStatus = HttpStatus.I_AM_A_TEAPOT;
         URIItem uri = new URIItem();
-        uri.setId("");
-        uri.setRedirection("");
-        uri.setHashpass("");
+        uri.setId("1234");
+        uri.setRedirection(body.getUri());
+        uri.setHashpass("1234");
 
         try {
             if (c.makeRequest(body.getUri()) == 200) {
