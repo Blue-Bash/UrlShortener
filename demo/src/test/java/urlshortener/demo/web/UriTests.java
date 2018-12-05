@@ -13,6 +13,7 @@ import urlshortener.demo.controller.advice.BaseServiceAdvice;
 import urlshortener.demo.controller.impl.UriApiController;
 import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
+import urlshortener.demo.domain.URIUpdate;
 import urlshortener.demo.repository.URIRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,5 +81,18 @@ public class UriTests {
                 .andExpect(jsonPath("$.id", is("1234")))
                 .andExpect(jsonPath("$.redirection", is("https://google.es")))
                 .andExpect(jsonPath("$.hashpass", is("1234")));
+    }
+
+    @Test
+    public void changeUriWorks() throws Exception {
+        URIUpdate uri = new URIUpdate();
+        uri.setNewName("name_example");
+        uri.setHashpass("1234");
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(uri);
+
+        mockMvc.perform(put("/uri/{name}", "patata").contentType(MediaType.APPLICATION_JSON_UTF8).content(json)).andDo(print())
+                .andExpect(status().isBadRequest());
     }
 }
