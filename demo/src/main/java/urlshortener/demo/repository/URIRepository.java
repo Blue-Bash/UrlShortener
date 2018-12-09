@@ -11,6 +11,6 @@ public interface URIRepository extends IRepository<String, URIItem> {
     URIItem obtainURI(String id);
 
     void saveURI(URIItem uri);
-
     void updateURI(URIUpdate uri);
+    long getRedirectionAmount(String hash, long timeFromNow);
 }
