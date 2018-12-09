@@ -40,7 +40,7 @@ public class CheckApiController implements CheckApi {
 
     public ResponseEntity<Void> checkURI(@ApiParam(value = "",required=true) @PathVariable("id") String id) {
         String accept = request.getHeader("Accept");
-        URIItem uri = uriService.obtainURI(id);         //Esta línea deberá descomentarse cuando esté implementada la BD
+        URIItem uri = uriService.get(id);
 
         CheckAlive c = new CheckAlive();
 
@@ -57,6 +57,6 @@ public class CheckApiController implements CheckApi {
             e.printStackTrace();
         }
 
-        return new ResponseEntity<Void>(HttpStatus.I_AM_A_TEAPOT);
+        return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
     }
 }

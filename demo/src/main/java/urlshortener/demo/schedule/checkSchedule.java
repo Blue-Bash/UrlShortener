@@ -25,7 +25,7 @@ public class checkSchedule {
         this.uriService = uriService;
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 86400)
     public void check() throws IOException {
         CheckAlive c = new CheckAlive();
 

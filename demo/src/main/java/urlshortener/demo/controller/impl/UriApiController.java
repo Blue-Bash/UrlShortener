@@ -84,7 +84,7 @@ public class UriApiController implements UriApi {
         CheckAlive c = new CheckAlive();
 
         URL url = null;
-        HttpStatus httpStatus = HttpStatus.I_AM_A_TEAPOT;
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         URIItem uri = new URIItem();
         uri.setId("1234");
         uri.setRedirection(body.getUri());
