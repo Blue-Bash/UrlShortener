@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import urlshortener.demo.controller.UriApi;
 import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
@@ -17,11 +18,13 @@ import urlshortener.demo.domain.URIUpdate;
 import urlshortener.demo.utils.CheckAlive;
 import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.URIRepository;
+import urlshortener.demo.utils.ParameterUtils;
+import urlshortener.demo.utils.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.IOException;
-import java.net.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2018-11-21T05:15:43.072Z[GMT]")
 
@@ -43,30 +46,24 @@ public class UriApiController implements UriApi {
         this.uriService = uriService;
     }
 
-    public ResponseEntity<URIItem> changeURI(@ApiParam(value = "Optional description in *Markdown*" ,required=true )  @Valid @RequestBody URIUpdate body, @ApiParam(value = "",required=true) @PathVariable("name") String name) {
+    public ResponseEntity<URIItem> changeURI(@ApiParam(value = "Optional description in *Markdown*" ,required=true )  @Valid @RequestBody URICreate body,@ApiParam(value = "",required=true) @PathVariable("name") String name) {
         String accept = request.getHeader("Accept");
         CheckAlive c = new CheckAlive();
 
-        URL url = null;
-        HttpStatus httpStatus = HttpStatus.I_AM_A_TEAPOT;
+        ParameterUtils.checkParameter(name);
+        ParameterUtils.checkParameter(body.getUri());
 
-        String redirection = "https://null.es"; //Se recupera de la BD la URI que corresponde al hashpass recibido
+        URIItem item = (URIItem) new URIItem().id(name).redirection(body.getUri()).hashpass(StringUtils.randomHash());
 
-        URIItem resultado = new URIItem();
-        resultado.setRedirection(redirection);
-        resultado.setHashpass(body.getHashpass());
-        resultado.setId(body.getNewName());
 
         try {
             if (c.makeRequest(redirection) == 200) {
-                //Completar método, rellenar el objeto de tipo URIItem "uri"
+                uriService.add(item);
 
-                uriService.updateURI(body);
-
-                return new ResponseEntity<URIItem>(resultado, HttpStatus.CREATED);
+                return new ResponseEntity<URIItem>(item, HttpStatus.CREATED);
             }
             else {
-                return new ResponseEntity<URIItem>(resultado, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<URIItem>(HttpStatus.BAD_REQUEST);
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -76,73 +73,46 @@ public class UriApiController implements UriApi {
             e.printStackTrace();
         }
 
-        return new ResponseEntity<URIItem>(resultado, HttpStatus.BAD_REQUEST);
-    }
+        return new ResponseEntity<URIItem>(HttpStatus.BAD_REQUEST);
 
     public ResponseEntity<URIItem> createURI(@ApiParam(value = "URI" ,required=true )  @Valid @RequestBody URICreate body) {
         String accept = request.getHeader("Accept");
-        CheckAlive c = new CheckAlive();
-
-        URL url = null;
-        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        URIItem uri = new URIItem();
-        uri.setId("1234");
-        uri.setRedirection(body.getUri());
-        uri.setHashpass("1234");
-
-        try {
-            if (c.makeRequest(body.getUri()) == 200) {
-
-                /*uri.setId("");
-                uri.setRedirection("");
-                uri.setHashpass("");*/
-
-                //Completar método, rellenar el objeto de tipo URIItem "uri"
-
-                uriService.saveURI(uri);
-
-                return new ResponseEntity<URIItem>(uri, HttpStatus.CREATED);
-            }
-            else {
-                return new ResponseEntity<URIItem>(uri, HttpStatus.BAD_REQUEST);
-            }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return new ResponseEntity<URIItem>(uri, httpStatus);
+        return changeURI(body, Long.toHexString(uriService.getNextID()));
     }
 
-    public ResponseEntity<Void> deleteURI(@ApiParam(value = "",required=true) @PathVariable("id") String id) {
+    public ResponseEntity<Void> deleteURI(@ApiParam(value = "",required=true) @PathVariable("id") String id, @RequestHeader("URIHashPass") String hashpass) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        ParameterUtils.checkParameter(id);
+        ParameterUtils.checkParameter(hashpass);
+
+        URIItem uri = uriService.get(id);
+        if(uri != null && uri.checkHashPass(hashpass)) {
+            uriService.remove(id);
+            return ResponseEntity.ok().build();
+        }else{
+            throw new IncorrectHashPassException(HttpStatus.BAD_REQUEST.value(), "Given hashpass doesn't match " + id + " hashpass.");
+        }
     }
 
     public ResponseEntity<Void> getURI(@ApiParam(value = "",required=true) @PathVariable("id") String id) {
         String accept = request.getHeader("Accept");
         CheckAlive c = new CheckAlive();
         URI location = null;
-        String redirection = ""; //Se recupera de la BD la URI asociada al parámetro "id"
 
 
+        String redirection;
         URIItem item = uriService.get(id);
         if(item == null){
             throw new UnknownEntityException(1, "Unknown URI: " + id);
         }
         redirection = item.getRedirection();
 
+
         try {
             if (c.makeRequest(redirection) == 200){
                 //OK
                 //Para esa URI, se registra la fecha actual como útima fecha en la que estuvo viva
                 location = new URI(redirection);
-                HttpHeaders responseHeaders = new HttpHeaders();
-                responseHeaders.setLocation(location);
-                return new ResponseEntity<Void>(responseHeaders, HttpStatus.TEMPORARY_REDIRECT);
             }
             else {
                 //Cualquier otra cosa aparte de un código 200 significará que la URI está muerta
