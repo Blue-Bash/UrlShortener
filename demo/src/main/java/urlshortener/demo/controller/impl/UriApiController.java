@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import urlshortener.demo.controller.UriApi;
 import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
-import urlshortener.demo.domain.URIUpdate;
+import urlshortener.demo.exception.IncorrectHashPassException;
 import urlshortener.demo.utils.CheckAlive;
 import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.URIRepository;
@@ -23,6 +23,9 @@ import urlshortener.demo.utils.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -57,12 +60,11 @@ public class UriApiController implements UriApi {
 
 
         try {
-            if (c.makeRequest(redirection) == 200) {
+            if (Integer.valueOf(c.makeRequest(item.getRedirection())) == 200) {
                 uriService.add(item);
 
                 return new ResponseEntity<URIItem>(item, HttpStatus.CREATED);
-            }
-            else {
+            } else {
                 return new ResponseEntity<URIItem>(HttpStatus.BAD_REQUEST);
             }
         } catch (MalformedURLException e) {
@@ -74,6 +76,7 @@ public class UriApiController implements UriApi {
         }
 
         return new ResponseEntity<URIItem>(HttpStatus.BAD_REQUEST);
+    }
 
     public ResponseEntity<URIItem> createURI(@ApiParam(value = "URI" ,required=true )  @Valid @RequestBody URICreate body) {
         String accept = request.getHeader("Accept");
