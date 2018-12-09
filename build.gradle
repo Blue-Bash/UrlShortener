@@ -11,6 +11,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "org.sonarqube" version "2.6.2"
+    id 'jacoco'
+}
 
 allprojects {
     apply plugin: 'idea'
@@ -52,6 +56,13 @@ project(':common') {
         compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
         // https://mvnrepository.com/artifact/com.github.joschi.jackson/jackson-datatype-threetenbp
         compile group: 'com.github.joschi.jackson', name: 'jackson-datatype-threetenbp', version: '2.6.4'
+        compile 'org.hibernate:hibernate-core:5.3.7.Final'
+        // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
+        compile group: 'com.zaxxer', name: 'HikariCP', version: '3.2.0'
+
+        // Required for QR generation
+        compile "com.google.zxing:core:3.3.0"
+        compile 'com.google.zxing:javase:3.3.0'
 
         compile 'org.springframework.boot:spring-boot-starter-web'
         compile 'org.springframework.boot:spring-boot-starter-jdbc'
