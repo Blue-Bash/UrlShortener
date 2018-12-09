@@ -1,8 +1,6 @@
 package urlshortener.demo.repository;
 
 import urlshortener.demo.domain.URIItem;
-import urlshortener.demo.domain.URIUpdate;
-
 import java.util.List;
 
 public interface URIRepository extends IRepository<String, URIItem> {

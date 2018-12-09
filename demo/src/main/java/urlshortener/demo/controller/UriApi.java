@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
-import urlshortener.demo.domain.URIUpdate;
 
 import javax.validation.Valid;
 

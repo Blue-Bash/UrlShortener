@@ -3,7 +3,6 @@ package urlshortener.demo.repository.impl;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import urlshortener.demo.domain.URIItem;
-import urlshortener.demo.domain.URIUpdate;
 import urlshortener.demo.exception.CannotAddEntityException;
 import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.AbstractRepository;
