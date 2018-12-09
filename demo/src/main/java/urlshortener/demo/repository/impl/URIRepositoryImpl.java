@@ -69,6 +69,4 @@ public class URIRepositoryImpl extends AbstractRepository<String, URIItem> imple
             return lastAccesses.stream().filter(t -> t > time).count();
         }
     }
-
-
 }
