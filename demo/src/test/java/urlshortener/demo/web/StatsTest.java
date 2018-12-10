@@ -45,12 +45,4 @@ public class StatsTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
-
-    /**
-     * redirectedUris and generatedQr must be incremented by one after PUT /uri/ or PUT /uri/{name}
-     */
-    @Test
-    public void thatStatsIncrementsWithNewUri() throws Exception {
-
-    }
 }

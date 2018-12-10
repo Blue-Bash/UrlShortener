@@ -22,9 +22,11 @@ public interface StatsRepository extends IRepository<String, Stats> {
     /**
      * Edit URI Stats
      */
-    void setLastAccess(String lastAccess, Long time);
+    void addAccess(String hash, long time);
+    long getAccesssesAfter(String hash, long time);
 
     void addURIStats(String hash);
     void removeURIStats(String hash);
+    void removeAllURIStats();
 
 }

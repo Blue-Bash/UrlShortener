@@ -18,7 +18,6 @@ public class AbstractRepository<K, V extends BaseEntity<K>> implements IReposito
         if(uris.containsKey(uri.getId())){
             throw new CannotAddEntityException(HttpStatus.BAD_REQUEST.value(), "Cannot add uri with hash " + uri.getId());
         }
-
         uris.put(uri.getId(), uri);
         nextID++;
     }
@@ -27,8 +26,9 @@ public class AbstractRepository<K, V extends BaseEntity<K>> implements IReposito
     public void update(K key, V newValue) {
         if(uris.containsKey(key)){
             uris.put(key, newValue);
+        } else {
+            throw new UnknownEntityException(HttpStatus.NOT_FOUND.value(), "Entity " + key + " not found");
         }
-        throw new UnknownEntityException(HttpStatus.NOT_FOUND.value(), "Entity " + key + " not found");
     }
 
     @Override

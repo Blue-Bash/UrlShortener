@@ -19,27 +19,27 @@ public class StatsRepositoryImpl extends AbstractRepository<String, Stats> imple
 
     public SystemStats getSystemStats() {
         if (!contains(SYSTEM_STATS_ID)) {
-            add(new SystemStats());
+            super.add(new SystemStats());
         }
-        return (SystemStats) get(SYSTEM_STATS_ID);
+        return (SystemStats) super.get(SYSTEM_STATS_ID);
     }
 
     public void incrementRedirectedUris() {
         SystemStats stats = getSystemStats();
         stats.setRedirectedUris(stats.getRedirectedUris()+1);
-        update(stats.getId(),stats);
+        super.update(stats.getId(),stats);
     }
 
     public void setServerLoad(BigDecimal load) {
         SystemStats stats = getSystemStats();
         stats.setServerLoad(load);
-        update(stats.getId(),stats);
+        super.update(stats.getId(),stats);
     }
 
     public void incrementGeneratedQr() {
         SystemStats stats = getSystemStats();
         stats.setGeneratedQr(stats.getGeneratedQr()+1);
-        update(stats.getId(),stats);
+        super.update(stats.getId(),stats);
     }
 
     public URIStats getURIStats(String hash) {
@@ -49,19 +49,30 @@ public class StatsRepositoryImpl extends AbstractRepository<String, Stats> imple
         return null;
     }
 
-    public void setLastAccess(String hash, Long time) {
+    public void addAccess(String hash, long time) {
         URIStats stats = getURIStats(hash);
-        stats.setLastAccesses(time);
-        update(stats.getId(),stats);
+        stats.addAccess(time);
+        super.update(stats.getId(),stats);
+    }
+
+    public long getAccesssesAfter(String hash, long time) {
+        URIStats stats = getURIStats(hash);
+        return stats.getAccesssesAfter(time);
     }
 
     public void addURIStats(String hash) {
-        add(new URIStats(hash));
+        super.add(new URIStats(hash));
     }
 
     public void removeURIStats(String hash) {
-        remove(hash);
+        super.remove(hash);
     }
 
+    public void removeAllURIStats() {
+        // TODO: Enhance this implementation (?)
+        SystemStats systemStats = getSystemStats();
+        super.removeAll();
+        super.add(systemStats);
+    }
 
 }

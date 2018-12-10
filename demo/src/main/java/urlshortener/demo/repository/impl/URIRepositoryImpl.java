@@ -1,26 +1,25 @@
 package urlshortener.demo.repository.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import urlshortener.demo.domain.URIItem;
+import urlshortener.demo.domain.URIStats;
 import urlshortener.demo.exception.CannotAddEntityException;
 import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.AbstractRepository;
+import urlshortener.demo.repository.StatsRepository;
 import urlshortener.demo.repository.URIRepository;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Repository
 public class URIRepositoryImpl extends AbstractRepository<String, URIItem> implements URIRepository {
 
-    private Map<String, URIStats> stats = new HashMap<>();
+    @Autowired
+    private StatsRepository statsRepository;
 
     @Override
     public long getRedirectionAmount(String hash, long timeFromNow) {
-        URIStats statsData = this.stats.get(hash);
+        URIStats statsData = this.statsRepository.getURIStats(hash);
         if(statsData == null) throw new UnknownEntityException(HttpStatus.BAD_REQUEST.value(), "Unknown URI " + hash);
 
         return statsData.getAccesssesAfter(System.currentTimeMillis() - timeFromNow);
@@ -28,39 +27,29 @@ public class URIRepositoryImpl extends AbstractRepository<String, URIItem> imple
 
     @Override
     public void add(URIItem uri) throws CannotAddEntityException {
-        stats.putIfAbsent(uri.getId(), new URIStats());
+        statsRepository.addURIStats(uri.getId());
         super.add(uri);
     }
 
     @Override
     public URIItem get(String hash) throws UnknownEntityException {
-        stats.putIfAbsent(hash, new URIStats());
-        stats.get(hash).addAccess();
+        if (!statsRepository.contains(hash)) {
+            statsRepository.addURIStats(hash);
+        }
+        statsRepository.getURIStats(hash).addAccess(System.currentTimeMillis());
 
         return super.get(hash);
     }
 
     @Override
     public void remove(String hash) throws UnknownEntityException {
-        stats.remove(hash);
+        statsRepository.removeURIStats(hash);
         super.remove(hash);
     }
 
     @Override
     public void removeAll() {
-        stats.clear();
+        statsRepository.removeAllURIStats();
         super.removeAll();
-    }
-
-    private static class URIStats{
-        private List<Long> lastAccesses = new ArrayList<>();
-
-        private void addAccess(){
-            this.lastAccesses.add(System.currentTimeMillis());
-        }
-
-        private long getAccesssesAfter(long time){
-            return lastAccesses.stream().filter(t -> t > time).count();
-        }
     }
 }

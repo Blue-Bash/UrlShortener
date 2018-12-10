@@ -4,30 +4,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 public class URIStats extends Stats {
 
     @JsonProperty("last-accesses")
-    private Long lastAccesses  = null;
+    private List<Long> accesses = new ArrayList<>();
 
     public URIStats(String hash) {
-        setId(hash);
+        super.setId(hash);
     }
 
-
-    public URIStats lastAccesses(Long lastAccesses) {
-        this.lastAccesses = lastAccesses;
-        return this;
-    }
-    
-    @ApiModelProperty(example = "858", required = true, value = "")
-    @NotNull
-    public Long getLastAccesses() {
-        return lastAccesses;
+    public void addAccess(long time){
+        this.accesses.add(time);
     }
 
-    public void setLastAccesses(Long lastAccesses) {
-        this.lastAccesses = lastAccesses;
+    public long getAccesssesAfter(long time){
+        return accesses.stream().filter(t -> t > time).count();
     }
 
 }
