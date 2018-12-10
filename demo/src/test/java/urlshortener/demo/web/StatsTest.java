@@ -10,14 +10,21 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import urlshortener.demo.controller.impl.StatsApiController;
+import urlshortener.demo.domain.SystemStats;
+import urlshortener.demo.domain.URICreate;
+import urlshortener.demo.repository.StatsRepository;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static urlshortener.demo.web.MockUtils.mapObject;
+import static urlshortener.demo.web.fixture.UriItemFixture.someCorrectURICreate;
 
 
 public class StatsTest {
@@ -30,6 +37,9 @@ public class StatsTest {
     @Mock
     private HttpServletRequest request;
 
+    @Mock
+    private StatsRepository service;
+
     @InjectMocks
     private StatsApiController statsApiController;
 
@@ -39,11 +49,18 @@ public class StatsTest {
         this.mockMvc = MockMvcBuilders.standaloneSetup(statsApiController).build();
     }
 
-    // TODO: Re-do this, is a mock
     @Test
     public void statGetWorks() throws Exception {
         mockMvc.perform(get("/stats")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
+
+    /*@Test
+    public void uriStatGetWorks() throws Exception {
+        String hash = ???
+        mockMvc.perform(get("/stats/{hash}",hash )).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+    }*/
 }

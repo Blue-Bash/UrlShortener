@@ -1,6 +1,9 @@
 package urlshortener.demo.controller.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import urlshortener.demo.controller.StatsApi;
 import urlshortener.demo.domain.Stats;
 import org.slf4j.Logger;
@@ -9,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import urlshortener.demo.domain.SystemStats;
+import urlshortener.demo.domain.URIStats;
+import urlshortener.demo.repository.StatsRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -23,19 +28,27 @@ public class StatsApiController implements StatsApi {
 
     private final HttpServletRequest request;
 
+    private StatsRepository service;
+
     @org.springframework.beans.factory.annotation.Autowired
-    public StatsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    public StatsApiController(ObjectMapper objectMapper, HttpServletRequest request, StatsRepository service) {
         this.objectMapper = objectMapper;
         this.request = request;
+        this.service = service;
+        service.add(new SystemStats());
     }
 
-    public ResponseEntity<Stats> getStats() {
+    public ResponseEntity<SystemStats> getStats() {
         String accept = request.getHeader("Accept");
-        SystemStats stats = new SystemStats();
-        stats.setRedirectedUris(745);
-        stats.setGeneratedQr(452);
-        stats.setServerLoad(new BigDecimal(0.23));
-        return new ResponseEntity<Stats>(stats, HttpStatus.OK);
+        SystemStats stats = service.getSystemStats();
+        return new ResponseEntity<SystemStats>(stats, HttpStatus.OK);
     }
+
+    public ResponseEntity<URIStats> getStats(String hash) {
+        String accept = request.getHeader("Accept");
+        URIStats stats = service.getURIStats(hash);
+        return new ResponseEntity<URIStats>(stats, HttpStatus.OK);
+    }
+
 
 }

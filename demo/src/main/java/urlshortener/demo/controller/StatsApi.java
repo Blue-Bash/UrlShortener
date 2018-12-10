@@ -5,23 +5,35 @@
  */
 package urlshortener.demo.controller;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import urlshortener.demo.domain.Stats;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import urlshortener.demo.domain.SystemStats;
+import urlshortener.demo.domain.URIStats;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2018-11-23T14:33:33.583Z[GMT]")
 
 @Api(value = "stats", description = "the stats API")
 public interface StatsApi {
 
-    @ApiOperation(value = "Returns stats from server", nickname = "getStats", notes = "Get stats info ", response = Stats.class, tags={ "F1 - The app will return system stats and info. (WS)", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Stats from server", response = Stats.class) })
+    @ApiOperation(value = "Returns stats from server", nickname = "getStats", notes = "Get stats info ", response = SystemStats.class, tags={ "F1 - The app will return system stats and info. (WS)", })
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Stats from server", response = SystemStats.class) })
     @RequestMapping(value = "/stats",
-        produces = { "application/json" }, 
+        produces = { "application/json" },
         method = RequestMethod.GET)
-    ResponseEntity<Stats> getStats();
+    ResponseEntity<SystemStats> getStats();
+
+    @ApiOperation(value = "Returns stats from server asociated to an URI", nickname = "getURIStats", notes = "Get stats info from URI", response = URIStats.class, tags={ "F1 - The app will return system stats and info. (WS)", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Stats from server", response = URIStats.class),
+            @ApiResponse(code = 404, message = "the shortened URI doesn't exist") })
+    @RequestMapping(value = "/stats/{hash}",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<URIStats> getStats(@ApiParam(value = "",required=true) @PathVariable("hash") String hash);
 
 }
