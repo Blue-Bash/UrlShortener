@@ -14,6 +14,7 @@ import urlshortener.demo.controller.impl.StatsApiController;
 import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -43,5 +44,13 @@ public class StatsTest {
         mockMvc.perform(get("/stats")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+    }
+
+    /**
+     * redirectedUris and generatedQr must be incremented by one after PUT /uri/ or PUT /uri/{name}
+     */
+    @Test
+    public void thatStatsIncrementsWithNewUri() throws Exception {
+
     }
 }

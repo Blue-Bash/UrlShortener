@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import urlshortener.demo.domain.Stats;
+import urlshortener.demo.domain.SystemStats;
 
 import java.math.BigDecimal;
 
@@ -17,12 +18,12 @@ public class StatsRepositoryTest extends BaseRepositoryTest {
 
     @Autowired
     private StatsRepository service;
-    private Stats item1, item2, item3;
+    private SystemStats item1, item2, item3;
 
     public StatsRepositoryTest() {
-        this.item1 = new Stats().id("testStats1").generatedQr(99);
-        this.item2 = new Stats().id("testStats1").generatedQr(10);
-        this.item3 = new Stats().id("testStats2").generatedQr(99);
+        this.item1 = ((SystemStats) new SystemStats().id("testStats1")).generatedQr(99);
+        this.item2 = ((SystemStats) new SystemStats().id("testStats1")).generatedQr(10);
+        this.item3 = ((SystemStats) new SystemStats().id("testStats2")).generatedQr(99);
     }
 
     @Test

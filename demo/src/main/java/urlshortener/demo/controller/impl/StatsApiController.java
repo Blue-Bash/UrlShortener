@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import urlshortener.demo.domain.SystemStats;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -30,7 +31,7 @@ public class StatsApiController implements StatsApi {
 
     public ResponseEntity<Stats> getStats() {
         String accept = request.getHeader("Accept");
-        Stats stats = new Stats();
+        SystemStats stats = new SystemStats();
         stats.setRedirectedUris(745);
         stats.setGeneratedQr(452);
         stats.setServerLoad(new BigDecimal(0.23));

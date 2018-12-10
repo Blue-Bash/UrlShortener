@@ -8,6 +8,8 @@ public interface IRepository<K, V extends BaseEntity<K>> {
 
     void add(V value) throws CannotAddEntityException;
 
+    void update(K key, V value) throws UnknownEntityException;
+
     V get(K key) throws UnknownEntityException;
 
     void remove(K key) throws UnknownEntityException;

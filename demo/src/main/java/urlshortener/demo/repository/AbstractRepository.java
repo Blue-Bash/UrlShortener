@@ -24,6 +24,14 @@ public class AbstractRepository<K, V extends BaseEntity<K>> implements IReposito
     }
 
     @Override
+    public void update(K key, V newValue) {
+        if(uris.containsKey(key)){
+            uris.put(key, newValue);
+        }
+        throw new UnknownEntityException(HttpStatus.NOT_FOUND.value(), "Entity " + key + " not found");
+    }
+
+    @Override
     public V get(K hash) throws UnknownEntityException {
         V item = uris.get(hash);
         if(item == null){
