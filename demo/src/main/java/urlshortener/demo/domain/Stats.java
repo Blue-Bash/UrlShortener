@@ -14,7 +14,10 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2018-11-26T14:20:22.002Z[GMT]")
 
-public class Stats   {
+public class Stats implements BaseEntity<String>{
+
+  private String id = null;
+
   @JsonProperty("redirected-uris")
   private Integer redirectedUris = null;
 
@@ -23,6 +26,20 @@ public class Stats   {
 
   @JsonProperty("generated-qr")
   private Integer generatedQr = null;
+
+  public Stats id(String id) {
+    this.id = id;
+    return this;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
 
   public Stats redirectedUris(Integer redirectedUris) {
     this.redirectedUris = redirectedUris;
