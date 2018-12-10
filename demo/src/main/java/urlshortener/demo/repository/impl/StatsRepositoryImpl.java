@@ -30,6 +30,12 @@ public class StatsRepositoryImpl extends AbstractRepository<String, Stats> imple
         super.update(stats.getId(),stats);
     }
 
+    public void decrementRedirectedUris() {
+        SystemStats stats = getSystemStats();
+        stats.setRedirectedUris(stats.getRedirectedUris()-1);
+        super.update(stats.getId(),stats);
+    }
+
     public void setServerLoad(BigDecimal load) {
         SystemStats stats = getSystemStats();
         stats.setServerLoad(load);
@@ -39,6 +45,12 @@ public class StatsRepositoryImpl extends AbstractRepository<String, Stats> imple
     public void incrementGeneratedQr() {
         SystemStats stats = getSystemStats();
         stats.setGeneratedQr(stats.getGeneratedQr()+1);
+        super.update(stats.getId(),stats);
+    }
+
+    public void incrementRedirections() {
+        SystemStats stats = getSystemStats();
+        stats.setRedirections(stats.getRedirections()+1);
         super.update(stats.getId(),stats);
     }
 

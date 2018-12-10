@@ -1,6 +1,7 @@
 package urlshortener.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.Valid;
@@ -13,13 +14,16 @@ public class SystemStats extends Stats {
     public static final String SYSTEM_STATS_ID = "~system";
 
     @JsonProperty("redirected-uris")
-    private Integer redirectedUris = null;
+    private Integer redirectedUris = 0;
 
     @JsonProperty("server-load")
-    private BigDecimal serverLoad = null;
+    private BigDecimal serverLoad = new BigDecimal(0);
 
     @JsonProperty("generated-qr")
-    private Integer generatedQr = null;
+    private Integer generatedQr = 0;
+
+    @JsonProperty("redirections")
+    private Integer redirections = 0;
 
     public SystemStats() {
         setId(SYSTEM_STATS_ID); // Unique ID for System Stats
@@ -62,6 +66,25 @@ public class SystemStats extends Stats {
 
     public void setServerLoad(BigDecimal serverLoad) {
         this.serverLoad = serverLoad;
+    }
+
+    public SystemStats redirections(Integer redirections) {
+        this.redirections = redirections;
+        return this;
+    }
+
+    /**
+     * Get redirections
+     * @return redirections
+     **/
+    @ApiModelProperty(example = "27", required = true, value = "")
+    @NotNull
+    public Integer getRedirections() {
+        return redirections;
+    }
+
+    public void setRedirections(Integer redirections) {
+        this.redirections = redirections;
     }
 
     public SystemStats generatedQr(Integer generatedQr) {

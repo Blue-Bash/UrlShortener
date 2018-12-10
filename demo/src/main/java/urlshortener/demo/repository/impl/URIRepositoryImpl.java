@@ -28,6 +28,7 @@ public class URIRepositoryImpl extends AbstractRepository<String, URIItem> imple
     @Override
     public void add(URIItem uri) throws CannotAddEntityException {
         statsRepository.addURIStats(uri.getId());
+        statsRepository.incrementRedirectedUris();
         super.add(uri);
     }
 
@@ -37,6 +38,7 @@ public class URIRepositoryImpl extends AbstractRepository<String, URIItem> imple
             statsRepository.addURIStats(hash);
         }
         statsRepository.getURIStats(hash).addAccess(System.currentTimeMillis());
+        statsRepository.incrementRedirections();
 
         return super.get(hash);
     }
@@ -44,6 +46,7 @@ public class URIRepositoryImpl extends AbstractRepository<String, URIItem> imple
     @Override
     public void remove(String hash) throws UnknownEntityException {
         statsRepository.removeURIStats(hash);
+        statsRepository.decrementRedirectedUris();
         super.remove(hash);
     }
 

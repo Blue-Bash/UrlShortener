@@ -39,6 +39,7 @@ public class StatsTest {
         this.mockMvc = MockMvcBuilders.standaloneSetup(statsApiController).build();
     }
 
+    // TODO: Re-do this, is a mock
     @Test
     public void statGetWorks() throws Exception {
         mockMvc.perform(get("/stats")).andDo(print())

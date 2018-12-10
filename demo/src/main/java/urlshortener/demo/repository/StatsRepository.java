@@ -14,8 +14,10 @@ public interface StatsRepository extends IRepository<String, Stats> {
      * Edit System Stats
      */
     void incrementRedirectedUris();
+    void decrementRedirectedUris();
     void setServerLoad(BigDecimal load);
     void incrementGeneratedQr();
+    void incrementRedirections();
 
     URIStats getURIStats(String hash);
 
