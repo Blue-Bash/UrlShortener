@@ -53,14 +53,20 @@ public class QrApiController implements QrApi {
         // and return int
         int w = StringChecker.checkString2Int(width);
         int h = StringChecker.checkString2Int(height);
+        
+        // If uri is not in the URIRepository return 404
+        if (!this.uriRepository.contains(id)){
+            return new ResponseEntity<QRItem>(HttpStatus.NOT_FOUND);
+        }
 
         // Default qr is required, so it's saved if the uri is shorthed
-        if(w==500 && h==500){
-            qr = this.qrRepository.get(id);
+        if(w==500 && h==500){    
+            URIItem uriItem = this.uriRepository.get(id);
+            qr = this.qrRepository.get(uriItem.getRedirection());
         }else{
             URIItem uriItem = this.uriRepository.get(id);
             qr = new QRItem();
-            qr.setUri(uriItem.getId());
+            qr.setUri(uriItem.getRedirection());
             qr.convertBase64(w, h);
         }
 

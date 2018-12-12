@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import urlshortener.demo.controller.UriApi;
+import urlshortener.demo.domain.QRItem;
 import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
 import urlshortener.demo.exception.IncorrectHashPassException;
 import urlshortener.demo.exception.UnknownEntityException;
+import urlshortener.demo.repository.QRRepository;
 import urlshortener.demo.repository.URIRepository;
 import urlshortener.demo.utils.ParameterUtils;
 import urlshortener.demo.utils.StringUtils;
@@ -30,11 +32,14 @@ import java.net.URISyntaxException;
 @Controller
 public class UriApiController implements UriApi {
 
-    //Limit to K redirections in one hour
+    // Limit to K redirections in one hour
     private static final long MAX_REDIRECTION_TIME = 3600000L;
 
-    //Limit to 100 redirections in X ms.
+    // Limit to 100 redirections in X ms.
     private static final long MAX_REDIRECTIONS = 100;
+
+    // Default size of QR code
+    private static final int QR_SIZE = 500;
 
     private static final Logger log = LoggerFactory.getLogger(UriApiController.class);
 
@@ -43,12 +48,15 @@ public class UriApiController implements UriApi {
     private final HttpServletRequest request;
 
     private final URIRepository uriService;
+    
+    private final QRRepository qrService;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public UriApiController(ObjectMapper objectMapper, HttpServletRequest request, URIRepository uriService) {
+    public UriApiController(ObjectMapper objectMapper, HttpServletRequest request, URIRepository uriService, QRRepository qrService) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.uriService = uriService;
+        this.qrService = qrService;
     }
 
     public ResponseEntity<URIItem> changeURI(@ApiParam(value = "Optional description in *Markdown*" ,required=true )  @Valid @RequestBody URICreate body,@ApiParam(value = "",required=true) @PathVariable("name") String name) {
@@ -58,6 +66,16 @@ public class UriApiController implements UriApi {
 
         URIItem item = (URIItem) new URIItem().id(name).redirection(body.getUri()).hashpass(StringUtils.randomHash());
         uriService.add(item);
+
+        // Save default QR to QRRepository if it doesn't already exist
+        if(!qrService.contains(body.getUri())){
+            QRItem qrItem = new QRItem();
+            qrItem.setUri(body.getUri());
+            qrItem.convertBase64(QR_SIZE, QR_SIZE);
+
+            this.qrService.add(qrItem);
+        }
+
         return new ResponseEntity<URIItem>(item, HttpStatus.CREATED);
     }
 
