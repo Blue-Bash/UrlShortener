@@ -38,9 +38,14 @@ public class URIBaseTest {
     @Test
     public void testURIBaseCheckHashpass(){
         URIBase base = new URIBase().hashpass("abc");
+        URIBase base2 = new URIBase().hashpass(null);
 
         assertFalse(base.checkHashPass(null));
         assertFalse(base.checkHashPass("abcd"));
         assertTrue(base.checkHashPass("abc"));
+
+        assertFalse(base2.checkHashPass(null));
+        assertFalse(base2.checkHashPass("abcd"));
+        assertFalse(base2.checkHashPass("abc"));
     }
 }
