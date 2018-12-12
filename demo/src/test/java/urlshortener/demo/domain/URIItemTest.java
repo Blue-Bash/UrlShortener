@@ -30,6 +30,7 @@ public class URIItemTest {
         URIItem base2 = new URIItem().id("abc");
         URIItem base3 = new URIItem().id("abcd");
         URIItem base4 = new URIItem().id("abc").redirection("abcd");
+        URIItem base5 = (URIItem) new URIItem().id("abc").hashpass("abcd");
 
         assertEquals(base, base);
         assertNotEquals(base, null);
@@ -37,6 +38,7 @@ public class URIItemTest {
         assertEquals(base, base2);
         assertNotEquals(base, base3);
         assertNotEquals(base, base4);
+        assertNotEquals(base, base5);
     }
 
     @Test
