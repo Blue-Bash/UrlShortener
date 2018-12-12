@@ -4,25 +4,47 @@ package urlshortener.demo.domain;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class URIUpdateTests {
 
     @Test
-    public void testOK(){
-        URIUpdate uriUpdate1 = new URIUpdate();
-        URIUpdate uriUpdate2 = uriUpdate1.newName("abc");
-        URIUpdate uriUpdate3 = (URIUpdate) uriUpdate2.hashpass("abcd");
+    public void testNewName(){
+        URIUpdate base = new URIUpdate().newName("abc");
 
-        assertEquals(uriUpdate3, uriUpdate1);
-        assertEquals(uriUpdate3, uriUpdate2);
-        assertEquals("abc", uriUpdate1.getNewName());
-        assertEquals("abcd", uriUpdate1.getHashpass());
+        assertEquals("abc", base.getNewName());
+        base.setNewName("abcd");
+        assertEquals("abcd", base.getNewName());
+    }
+
+    @Test
+    public void testHashpass(){
+        URIUpdate base = (URIUpdate) new URIUpdate().hashpass("abc");
+
+        assertEquals("abc", base.getHashpass());
+        base.setHashpass("abcd");
+        assertEquals("abcd", base.getHashpass());
+    }
+
+    @Test
+    public void testURIUpdateEquals(){
+        URIUpdate base = new URIUpdate().newName("abc");
+        URIUpdate base2 = new URIUpdate().newName("abc");
+        URIUpdate base3 = new URIUpdate().newName("abcd");
+        URIUpdate base4 = (URIUpdate) new URIUpdate().newName("abc").hashpass("abcd");
+
+        assertEquals(base, base);
+        assertNotEquals(base, null);
+        assertNotEquals(base, "abc");
+        assertEquals(base, base2);
+        assertNotEquals(base, base3);
+        assertNotEquals(base, base4);
     }
 
     @Test
     public void testToString(){
-        URIUpdate uriUpdate1 = (URIUpdate) new URIUpdate().newName("abc").hashpass("abcd");
-        assertEquals("class URIUpdate {\n    newName: abc\n    hashpass: abcd\n}", uriUpdate1.toString());
+        URIUpdate uriUpdate1 = new URIUpdate().newName("abc");
+        assertEquals("class URIUpdate {\n    newName: abc\n    hashpass: null\n}", uriUpdate1.toString());
     }
 
 }
