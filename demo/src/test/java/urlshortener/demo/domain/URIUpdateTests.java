@@ -47,4 +47,10 @@ public class URIUpdateTests {
         assertEquals("class URIUpdate {\n    newName: abc\n    hashpass: null\n}", uriUpdate1.toString());
     }
 
+    @Test
+    public void testHashCode(){
+        URIUpdate uriUpdate1 = new URIUpdate().newName("abc");
+        assertEquals(2987935, uriUpdate1.hashCode());
+    }
+
 }
