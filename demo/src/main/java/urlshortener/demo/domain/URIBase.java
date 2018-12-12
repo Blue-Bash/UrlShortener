@@ -40,7 +40,7 @@ public class URIBase {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        URIBase urIItem = (URIItem) o;
+        URIBase urIItem = (URIBase) o;
         return Objects.equals(this.hashpass, urIItem.hashpass);
     }
 
