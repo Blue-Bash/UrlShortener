@@ -29,12 +29,14 @@ public class URIItemTest {
         URIItem base = new URIItem().id("abc");
         URIItem base2 = new URIItem().id("abc");
         URIItem base3 = new URIItem().id("abcd");
+        URIItem base4 = new URIItem().id("abc").redirection("abcd");
 
         assertEquals(base, base);
         assertNotEquals(base, null);
         assertNotEquals(base, "abc");
         assertEquals(base, base2);
         assertNotEquals(base, base3);
+        assertNotEquals(base, base4);
     }
 
     @Test
