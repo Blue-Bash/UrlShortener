@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import urlshortener.demo.controller.CheckApi;
 import urlshortener.demo.domain.URIItem;
 import urlshortener.demo.exception.InvalidRequestParametersException;
-import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.URIRepository;
 import urlshortener.demo.utils.CheckAlive;
 
