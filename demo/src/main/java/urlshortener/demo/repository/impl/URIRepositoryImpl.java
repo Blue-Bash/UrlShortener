@@ -3,7 +3,6 @@ package urlshortener.demo.repository.impl;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import urlshortener.demo.domain.URIItem;
-import urlshortener.demo.exception.CannotAddEntityException;
 import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.AbstractRepository;
 import urlshortener.demo.repository.URIRepository;
@@ -27,13 +26,13 @@ public class URIRepositoryImpl extends AbstractRepository<String, URIItem> imple
     }
 
     @Override
-    public void add(URIItem uri) throws CannotAddEntityException {
+    public void add(URIItem uri) {
         stats.putIfAbsent(uri.getId(), new URIStats());
         super.add(uri);
     }
 
     @Override
-    public URIItem get(String hash) throws UnknownEntityException {
+    public URIItem get(String hash) {
         stats.putIfAbsent(hash, new URIStats());
         stats.get(hash).addAccess();
 
@@ -41,7 +40,7 @@ public class URIRepositoryImpl extends AbstractRepository<String, URIItem> imple
     }
 
     @Override
-    public void remove(String hash) throws UnknownEntityException {
+    public void remove(String hash) {
         stats.remove(hash);
         super.remove(hash);
     }
