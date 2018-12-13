@@ -39,8 +39,11 @@ public class URICreateTest {
     @Test
     public void testURICreateCheckToString(){
         URICreate base = new URICreate().uri("abc");
-
         assertEquals("class URICreate {\n    uri: abc\n}", base.toString());
+
+        base = new URICreate().uri("null");
+        assertEquals("class URICreate {\n    uri: null\n}", base.toString());
+
     }
 
 }
