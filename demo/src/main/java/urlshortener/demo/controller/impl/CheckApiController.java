@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import urlshortener.demo.controller.CheckApi;
 import urlshortener.demo.domain.URIItem;
+import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.URIRepository;
 import urlshortener.demo.utils.CheckAlive;
 
@@ -49,11 +50,7 @@ public class CheckApiController implements CheckApi {
 
             return new ResponseEntity<Void>(httpStatus);
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (IOException | UnknownEntityException e) {
             e.printStackTrace();
         }
 

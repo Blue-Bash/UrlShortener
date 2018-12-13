@@ -54,4 +54,6 @@ public class CheckApiControllerIntegrationTest {
     public void checkURITest_empty_URI_throws_UnknownEntityException() {
         ResponseEntity<Void> responseEntity = api.checkURI("");
     }
+
+
 }
