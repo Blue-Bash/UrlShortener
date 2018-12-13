@@ -116,12 +116,7 @@ public class UriApiController implements UriApi {
             throw new UnknownEntityException(1, "Unknown URI: " + id);
         }
 
-        if(uriService.getRedirectionAmount(id, MAX_REDIRECTION_TIME) > MAX_REDIRECTIONS){
-            return new ResponseEntity<>(HttpStatus.TOO_MANY_REQUESTS);
-        }
-
         redirection = item.getRedirection();
-
 
         try {
             if (c.makeRequest(redirection) == 200){
@@ -136,15 +131,14 @@ public class UriApiController implements UriApi {
                 return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
             }
 
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException | IOException  e) {
             throw new InvalidRequestParametersException(HttpStatus.BAD_REQUEST.value(), "");
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+
+        if(uriService.getRedirectionAmount(id, MAX_REDIRECTION_TIME) > MAX_REDIRECTIONS){
+            return new ResponseEntity<>(HttpStatus.TOO_MANY_REQUESTS);
+        }
+
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
