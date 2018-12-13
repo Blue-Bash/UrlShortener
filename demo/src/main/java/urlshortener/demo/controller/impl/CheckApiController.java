@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import urlshortener.demo.controller.CheckApi;
 import urlshortener.demo.domain.URIItem;
+import urlshortener.demo.exception.InvalidRequestParametersException;
 import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.URIRepository;
 import urlshortener.demo.utils.CheckAlive;
@@ -48,10 +49,8 @@ public class CheckApiController implements CheckApi {
 
             return new ResponseEntity<Void>(httpStatus);
 
-        } catch (IOException | UnknownEntityException e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            throw new InvalidRequestParametersException(HttpStatus.BAD_REQUEST.value(), "There was a problem with the parameters.");
         }
-
-        return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
     }
 }

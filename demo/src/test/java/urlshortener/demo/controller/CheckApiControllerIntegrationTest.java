@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import urlshortener.demo.domain.URIItem;
+import urlshortener.demo.exception.InvalidRequestParametersException;
 import urlshortener.demo.repository.URIRepository;
 
 import static org.junit.Assert.assertEquals;
@@ -53,5 +54,16 @@ public class CheckApiControllerIntegrationTest {
         ResponseEntity<Void> responseEntity = api.checkURI("");
     }
 
+    @Test(expected = InvalidRequestParametersException.class)
+    public void checkURITest_invalid_URL(){
+        URIItem uri = new URIItem();
+
+        uri.setId("2");
+        uri.setHashpass("1");
+        uri.setRedirection("http://localhost:1111");
+        repo.add(uri);
+
+        api.checkURI("2");
+    }
 
 }

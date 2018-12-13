@@ -2,10 +2,12 @@ package urlshortener.demo.utils;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 
 public class CheckAlive {
-    public int makeRequest(String s) throws IOException {
+    public int makeRequest(String s) throws IOException  {
         URL url = new URL(s);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
