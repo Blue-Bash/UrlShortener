@@ -41,7 +41,7 @@ public class URICreateTest {
         URICreate base = new URICreate().uri("abc");
         assertEquals("class URICreate {\n    uri: abc\n}", base.toString());
 
-        base = new URICreate().uri("null");
+        base = new URICreate().uri(null);
         assertEquals("class URICreate {\n    uri: null\n}", base.toString());
 
     }
