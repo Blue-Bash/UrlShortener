@@ -15,7 +15,7 @@ import urlshortener.demo.controller.UriApi;
 import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
 import urlshortener.demo.exception.IncorrectHashPassException;
-import urlshortener.demo.utils.CheckAlive;
+import urlshortener.demo.exception.InvalidRequestParametersException;
 import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.URIRepository;
 import urlshortener.demo.utils.ParameterUtils;
@@ -135,8 +135,8 @@ public class UriApiController implements UriApi {
                 return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
             }
 
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+        } catch (URISyntaxException |  e) {
+            throw new InvalidRequestParametersException(HttpStatus.BAD_REQUEST.value(), "");
         } catch (ProtocolException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {

@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import urlshortener.demo.domain.URIItem;
+import urlshortener.demo.exception.UnknownEntityException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 
 @RunWith(SpringRunner.class)
@@ -65,5 +67,10 @@ public class URIRepositoryTest extends BaseRepositoryTest {
         repository.get(item1.getId());
         assertEquals(1, repository.getRedirectionAmount(item1.getId(), System.currentTimeMillis()));
         assertEquals(0, repository.getRedirectionAmount(item1.getId(), -1000));
+
+        try{
+            repository.getRedirectionAmount(item1.getId() + "invalid", -1000);
+            fail();
+        }catch(UnknownEntityException ignored){}
     }
 }
