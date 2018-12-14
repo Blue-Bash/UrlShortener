@@ -15,6 +15,7 @@ import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
 import urlshortener.demo.exception.CannotAddEntityException;
 import urlshortener.demo.repository.URIRepository;
+import urlshortener.demo.repository.QRRepository;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,6 +40,9 @@ public class UriTests {
 
     @Mock
     private URIRepository service;
+
+    @Mock
+    private QRRepository qrService;
 
     @InjectMocks
     private UriApiController uriApiController;
