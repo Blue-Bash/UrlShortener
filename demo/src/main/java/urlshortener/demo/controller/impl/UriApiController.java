@@ -74,7 +74,14 @@ public class UriApiController implements UriApi {
         try {
             if (Integer.valueOf(c.makeRequest(item.getRedirection())) == 200) {
                 uriService.add(item);
+                // Save default QR to QRRepository if it doesn't already exist
+                if(!qrService.contains(body.getUri())){
+                    QRItem qrItem = new QRItem();
+                    qrItem.setUri(body.getUri());
+                    qrItem.convertBase64(QR_SIZE, QR_SIZE);
 
+                    this.qrService.add(qrItem);
+                }
                 return new ResponseEntity<URIItem>(item, HttpStatus.CREATED);
             } else {
                 return new ResponseEntity<URIItem>(HttpStatus.BAD_REQUEST);
@@ -82,18 +89,6 @@ public class UriApiController implements UriApi {
         } catch (IOException e) {
             throw new InvalidRequestParametersException(HttpStatus.BAD_REQUEST.value(), "There was a problem with the parameters.");
         }
-        uriService.add(item);
-
-        // Save default QR to QRRepository if it doesn't already exist
-        if(!qrService.contains(body.getUri())){
-            QRItem qrItem = new QRItem();
-            qrItem.setUri(body.getUri());
-            qrItem.convertBase64(QR_SIZE, QR_SIZE);
-
-            this.qrService.add(qrItem);
-        }
-
-        return new ResponseEntity<URIItem>(item, HttpStatus.CREATED);
     }
 
     public ResponseEntity<URIItem> createURI(@ApiParam(value = "URI" ,required=true )  @Valid @RequestBody URICreate body) {
