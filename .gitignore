@@ -21,5 +21,6 @@ out/
 .classpath
 .settings/
 .vscode
+demo/bin
 bin/
 app.properties

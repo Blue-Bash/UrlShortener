@@ -20,11 +20,13 @@ import urlshortener.demo.exception.InvalidRequestParametersException;
 import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.QRRepository;
 import urlshortener.demo.repository.URIRepository;
+import urlshortener.demo.utils.CheckAlive;
 import urlshortener.demo.utils.ParameterUtils;
 import urlshortener.demo.utils.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -62,22 +64,31 @@ public class UriApiController implements UriApi {
 
     public ResponseEntity<URIItem> changeURI(@ApiParam(value = "Optional description in *Markdown*" ,required=true )  @Valid @RequestBody URICreate body,@ApiParam(value = "",required=true) @PathVariable("name") String name) {
         String accept = request.getHeader("Accept");
+        CheckAlive c = new CheckAlive();
+
         ParameterUtils.checkParameter(name);
         ParameterUtils.checkParameter(body.getUri());
 
         URIItem item = (URIItem) new URIItem().id(name).redirection(body.getUri()).hashpass(StringUtils.randomHash());
-        uriService.add(item);
 
-        // Save default QR to QRRepository if it doesn't already exist
-        if(!qrService.contains(body.getUri())){
-            QRItem qrItem = new QRItem();
-            qrItem.setUri(body.getUri());
-            qrItem.convertBase64(QR_SIZE, QR_SIZE);
+        try {
+            if (Integer.valueOf(c.makeRequest(item.getRedirection())) == 200) {
+                uriService.add(item);
+                // Save default QR to QRRepository if it doesn't already exist
+                if(!qrService.contains(body.getUri())){
+                    QRItem qrItem = new QRItem();
+                    qrItem.setUri(body.getUri());
+                    qrItem.convertBase64(QR_SIZE, QR_SIZE);
 
-            this.qrService.add(qrItem);
+                    this.qrService.add(qrItem);
+                }
+                return new ResponseEntity<URIItem>(item, HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<URIItem>(HttpStatus.BAD_REQUEST);
+            }
+        } catch (IOException e) {
+            throw new InvalidRequestParametersException(HttpStatus.BAD_REQUEST.value(), "There was a problem with the parameters.");
         }
-
-        return new ResponseEntity<URIItem>(item, HttpStatus.CREATED);
     }
 
     public ResponseEntity<URIItem> createURI(@ApiParam(value = "URI" ,required=true )  @Valid @RequestBody URICreate body) {
@@ -101,23 +112,39 @@ public class UriApiController implements UriApi {
 
     public ResponseEntity<Void> getURI(@ApiParam(value = "",required=true) @PathVariable("id") String id) {
         String accept = request.getHeader("Accept");
+        CheckAlive c = new CheckAlive();
+        URI location = null;
 
+
+        String redirection;
         URIItem item = uriService.get(id);
         if(item == null){
             throw new UnknownEntityException(1, "Unknown URI: " + id);
         }
 
-        String redirection = item.getRedirection();
-        URI location = null;
+        redirection = item.getRedirection();
+
         try {
-            location = new URI(redirection);
-        } catch (URISyntaxException e) {
+            if (c.makeRequest(redirection) == 200){
+                //OK
+                //Para esa URI, se registra la fecha actual como útima fecha en la que estuvo viva
+                location = new URI(redirection);
+            }
+            else {
+                //Cualquier otra cosa aparte de un código 200 significará que la URI está muerta
+                //Se obtiene la última vez que la URI estuvo viva
+                //  -Si la diferencia entre la fecha actual y la fecha recuperada es >= K, entonces la URI se borra
+                return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            }
+
+        } catch (URISyntaxException | IOException  e) {
             throw new InvalidRequestParametersException(HttpStatus.BAD_REQUEST.value(), "");
         }
 
         if(uriService.getRedirectionAmount(id, MAX_REDIRECTION_TIME) > MAX_REDIRECTIONS){
             return new ResponseEntity<>(HttpStatus.TOO_MANY_REQUESTS);
         }
+
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);

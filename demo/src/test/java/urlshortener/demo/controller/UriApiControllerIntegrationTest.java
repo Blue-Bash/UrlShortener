@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
+import urlshortener.demo.domain.URIUpdate;
 import urlshortener.demo.exception.IncorrectHashPassException;
 import urlshortener.demo.exception.InvalidRequestParametersException;
 import urlshortener.demo.exception.UnknownEntityException;
@@ -96,6 +97,13 @@ public class UriApiControllerIntegrationTest {
     /*
      * Test PUT /uri
      */
+
+
+
+
+
+
+
     @Test
     public void createOK(){
         //Test 1: Create OK
@@ -129,6 +137,15 @@ public class UriApiControllerIntegrationTest {
         ResponseEntity<Void> responseEntity = api.deleteURI(createdURIItem.getId(), createdURIItem.getHashpass());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertFalse(repository.contains(createdURIItem.getId()));
+    }
+
+    @Test
+    public void getURITestError() throws Exception {
+        String id = "id_example";
+        try {
+            api.getURI(id);
+            fail();
+        }catch(UnknownEntityException ignored){ }
     }
 
     @Test
@@ -181,20 +198,6 @@ public class UriApiControllerIntegrationTest {
             fail();
         }catch (InvalidRequestParametersException ignored){}
         assertTrue(repository.contains(createdURIItem.getId()));
-    }
-
-
-
-    /*
-     * Test GET /uri
-     */
-    @Test
-    public void getURITestError() {
-        String id = "id_example";
-        try {
-            api.getURI(id);
-            fail();
-        }catch(UnknownEntityException ignored){ }
     }
 
     @Test

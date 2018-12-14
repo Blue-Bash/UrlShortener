@@ -8,12 +8,17 @@ import urlshortener.demo.repository.AbstractRepository;
 import urlshortener.demo.repository.URIRepository;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 @Repository
 public class URIRepositoryImpl extends AbstractRepository<String, URIItem> implements URIRepository {
+
+    @Override
+    public List<URIItem> checkURI() {
+        return new ArrayList<>();
+    }
 
     private Map<String, URIStats> stats = new HashMap<>();
 

@@ -29,7 +29,7 @@ import static urlshortener.demo.web.fixture.UriItemFixture.*;
 
 public class UriTests {
     private static final String HASHPASS_HEADER_KEY = "URIHashPass";
-    
+
     private MockMvc mockMvc;
 
     @Mock
@@ -146,7 +146,7 @@ public class UriTests {
     public void deleteURIOK() throws Exception {
         URIItem uriItem = someURI();
         String id = uriItem.getId();
-        
+
         doNothing().when(service).remove(uriItem.getId());
         doReturn(uriItem).when(service).get(uriItem.getId());
 
@@ -164,7 +164,7 @@ public class UriTests {
 
         mockMvc.perform(delete("/uri/{id}", id).contentType(MediaType.APPLICATION_JSON).content(mapObject(uriItem)).header(HASHPASS_HEADER_KEY, "")).andDo(print())
                 .andExpect(status().isBadRequest());
-        
+
         //We do not test header value null as it cannot have that value
     }
 
@@ -175,7 +175,7 @@ public class UriTests {
 
         doNothing().when(service).remove(uriItem.getId());
         doReturn(uriItem).when(service).get(uriItem.getId());
-        
+
         String hashPass = uriItem.getHashpass() + "invalid:D";
 
         mockMvc.perform(delete("/uri/{id}", id).contentType(MediaType.APPLICATION_JSON).content(mapObject(uriItem)).header(HASHPASS_HEADER_KEY, hashPass)).andDo(print())
