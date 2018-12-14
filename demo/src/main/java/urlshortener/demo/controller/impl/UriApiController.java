@@ -16,6 +16,7 @@ import urlshortener.demo.domain.QRItem;
 import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
 import urlshortener.demo.exception.IncorrectHashPassException;
+import urlshortener.demo.exception.InvalidRequestParametersException;
 import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.QRRepository;
 import urlshortener.demo.repository.URIRepository;
@@ -101,23 +102,21 @@ public class UriApiController implements UriApi {
     public ResponseEntity<Void> getURI(@ApiParam(value = "",required=true) @PathVariable("id") String id) {
         String accept = request.getHeader("Accept");
 
-        String redirection;
         URIItem item = uriService.get(id);
         if(item == null){
             throw new UnknownEntityException(1, "Unknown URI: " + id);
         }
 
-        if(uriService.getRedirectionAmount(id, MAX_REDIRECTION_TIME) > MAX_REDIRECTIONS){
-            return new ResponseEntity<>(HttpStatus.TOO_MANY_REQUESTS);
-        }
-
-        redirection = item.getRedirection();
-
+        String redirection = item.getRedirection();
         URI location = null;
         try {
             location = new URI(redirection);
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            throw new InvalidRequestParametersException(HttpStatus.BAD_REQUEST.value(), "");
+        }
+
+        if(uriService.getRedirectionAmount(id, MAX_REDIRECTION_TIME) > MAX_REDIRECTIONS){
+            return new ResponseEntity<>(HttpStatus.TOO_MANY_REQUESTS);
         }
 
         HttpHeaders responseHeaders = new HttpHeaders();

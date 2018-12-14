@@ -219,4 +219,15 @@ public class UriApiControllerIntegrationTest {
         assertEquals(HttpStatus.TOO_MANY_REQUESTS, responseEntity.getStatusCode());
     }
 
+    @Test
+    public void getURITestInvalidURLFormat() {
+        String id = "id_example";
+        repository.add((URIItem) new URIItem().id(id).redirection("2invalid0http:/google.es").hashpass("abc"));
+
+        try {
+            api.getURI(id);
+            fail();
+        }catch(InvalidRequestParametersException ignored){}
+    }
+
 }

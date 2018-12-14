@@ -222,6 +222,13 @@ public class UriTests {
     }
 
     @Test
+    public void getUriInvalidURL() throws Exception {
+        when(service.get("1")).thenReturn(someURIInvalidURI());
+        mockMvc.perform(get("/uri/{id}", "1")).andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void getUriError() throws Exception {
         when(service.get("1")).thenReturn(null);
         mockMvc.perform(get("/uri/{id}", "1")).andDo(print())
