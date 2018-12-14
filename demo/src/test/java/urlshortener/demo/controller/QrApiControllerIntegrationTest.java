@@ -1,14 +1,9 @@
 package urlshortener.demo.controller;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import urlshortener.demo.domain.QRItem;
-import urlshortener.demo.utils.*;
-
-import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -18,146 +13,6 @@ public class QrApiControllerIntegrationTest {
     @Autowired
     private QrApi api;
 
-    @Test
-    public void getQRTest() throws Exception {
-        String id = "www.google.es";
-        QRItem qr = new QRItem();
-        qr.setUri(id);
-        qr.convertBase64(500, 500);
 
-        assertEquals(EXPECTED_QR_CODE, qr.getQr());
-    }
-
-    // When any incorrect param is passed, such as a null param, negative param, zero param or smaller than
-    // 30 param, the QR is generated with a standar 500px size.
-    @Test
-    public void nullWidthTest() throws Exception {
-        String id = "www.google.es";
-        String width = null;
-        QRItem qr = new QRItem();
-        int w = StringChecker.checkString2Int(width);
-        
-        qr.setUri(id);
-        qr.convertBase64(w, 500);
-
-        assertEquals(EXPECTED_QR_CODE, qr.getQr());
-    }
-
-    @Test
-    public void nullHeigthTest() throws Exception {
-        String id = "www.google.es";
-        String height = null;
-        QRItem qr = new QRItem();
-        int h = StringChecker.checkString2Int(height);
-        
-        qr.setUri(id);
-        qr.convertBase64(500, h);
-
-        assertEquals(EXPECTED_QR_CODE, qr.getQr());
-    }
-
-    @Test
-    public void negativeWidthTest() throws Exception {
-        String id = "www.google.es";
-        String width = "-5";
-        QRItem qr = new QRItem();
-        int w = StringChecker.checkString2Int(width);
-        
-        qr.setUri(id);
-        qr.convertBase64(w, 500);
-
-        assertEquals(EXPECTED_QR_CODE, qr.getQr());
-    }
-
-    @Test
-    public void negativeHeightTest() throws Exception {
-        String id = "www.google.es";
-        String height = "-34";
-        QRItem qr = new QRItem();
-        int h = StringChecker.checkString2Int(height);
-        
-        qr.setUri(id);
-        qr.convertBase64(500, h);
-
-        assertEquals(EXPECTED_QR_CODE, qr.getQr());
-    }
-
-    @Test
-    public void zeroWidthTest() throws Exception {
-        String id = "www.google.es";
-        String width = "0";
-        QRItem qr = new QRItem();
-        int w = StringChecker.checkString2Int(width);
-        
-        qr.setUri(id);
-        qr.convertBase64(w, 500);
-
-        assertEquals(EXPECTED_QR_CODE, qr.getQr());
-    }
-
-    @Test
-    public void zeroHeightTest() throws Exception {
-        String id = "www.google.es";
-        String height = "0";
-        QRItem qr = new QRItem();
-        int h = StringChecker.checkString2Int(height);
-        
-        qr.setUri(id);
-        qr.convertBase64(500, h);
-
-        assertEquals(EXPECTED_QR_CODE, qr.getQr());
-    }
-
-    @Test
-    public void smallerThan30WidthTest() throws Exception {
-        String id = "www.google.es";
-        String width = "27";
-        QRItem qr = new QRItem();
-        int w = StringChecker.checkString2Int(width);
-        
-        qr.setUri(id);
-        qr.convertBase64(w, 500);
-
-        assertEquals(EXPECTED_QR_CODE, qr.getQr());
-    }
-
-    @Test
-    public void smallerThan30heightTest() throws Exception {
-        String id = "www.google.es";
-        String height = "27";
-        QRItem qr = new QRItem();
-        int h = StringChecker.checkString2Int(height);
-        
-        qr.setUri(id);
-        qr.convertBase64(500, h);
-
-        assertEquals(EXPECTED_QR_CODE, qr.getQr());
-    }
-
-    @Test
-    public void greaterThan2048WidthTest() throws Exception {
-        String id = "www.google.es";
-        String width = "2049";
-        QRItem qr = new QRItem();
-        int w = StringChecker.checkString2Int(width);
-        
-        qr.setUri(id);
-        qr.convertBase64(w, 500);
-
-        assertEquals(EXPECTED_QR_CODE, qr.getQr());
-    }
-
-    @Test
-    public void greaterThan2048heightTest() throws Exception {
-        String id = "www.google.es";
-        String height = "2049";
-        QRItem qr = new QRItem();
-        int h = StringChecker.checkString2Int(height);
-        
-        qr.setUri(id);
-        qr.convertBase64(500, h);
-        
-        assertEquals(EXPECTED_QR_CODE, qr.getQr());
-    }
 
 }
