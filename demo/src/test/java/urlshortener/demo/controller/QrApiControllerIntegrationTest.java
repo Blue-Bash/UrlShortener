@@ -1,9 +1,20 @@
 package urlshortener.demo.controller;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import urlshortener.demo.domain.QRItem;
+import urlshortener.demo.domain.URIItem;
+import urlshortener.demo.repository.QRRepository;
+import urlshortener.demo.repository.URIRepository;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -13,6 +24,40 @@ public class QrApiControllerIntegrationTest {
     @Autowired
     private QrApi api;
 
+    @Autowired
+    private URIRepository uriRepository;
 
+    @Autowired
+    private QRRepository qrRepository;
+
+    private QRItem qr;
+    private URIItem uri;
+
+    @Before
+    public void setup(){
+        String id = "google";
+        String redirection = "www.google.es";
+        uri = new URIItem().id(id).redirection(redirection);
+        qr = new QRItem();
+        qr.setUri(id);
+        qr.convertBase64(500, 500);
+
+        uriRepository.add(uri);
+        qrRepository.add(qr);
+    }
+
+    @After
+    public void cleanup(){
+        qrRepository.remove(qr.getId());
+        uriRepository.remove(uri.getId());
+
+    }
+
+    @Test
+    public void test500pxWidthAndHeight(){
+        ResponseEntity<QRItem> response = api.getQR("google");
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(qr, response.getBody());
+    }
 
 }

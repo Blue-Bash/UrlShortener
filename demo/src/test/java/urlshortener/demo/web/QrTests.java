@@ -1,41 +1,27 @@
 package urlshortener.demo.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.jayway.jsonpath.JsonPath;
-
-import org.hamcrest.core.IsNot;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.JSONParser;
+import urlshortener.demo.controller.advice.BaseControllerAdvice;
 import urlshortener.demo.controller.impl.QrApiController;
-import urlshortener.demo.controller.impl.UriApiController;
 import urlshortener.demo.domain.QRItem;
-import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
-import urlshortener.demo.web.MockUtils;
 import urlshortener.demo.repository.QRRepository;
 import urlshortener.demo.repository.URIRepository;
-import urlshortener.demo.controller.advice.BaseControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 public class QrTests {
@@ -72,7 +58,7 @@ public class QrTests {
 
         when(uriRepository.get("googleHash")).thenReturn(uriItem);
         when(uriRepository.contains("googleHash")).thenReturn(true);
-        when(qrRepository.get(uriItem.getRedirection())).thenReturn(qrItem);
+        when(qrRepository.get(uriItem.getId())).thenReturn(qrItem);
 
          mockMvc.perform(get("/qr/{id}/", "googleHash"))
                 .andDo(print())
