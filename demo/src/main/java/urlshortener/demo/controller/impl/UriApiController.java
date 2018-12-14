@@ -74,15 +74,9 @@ public class UriApiController implements UriApi {
             } else {
                 return new ResponseEntity<URIItem>(HttpStatus.BAD_REQUEST);
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new InvalidRequestParametersException(HttpStatus.BAD_REQUEST.value(), "There was a problem with the parameters.");
         }
-
-        return new ResponseEntity<URIItem>(HttpStatus.BAD_REQUEST);
     }
 
     public ResponseEntity<URIItem> createURI(@ApiParam(value = "URI" ,required=true )  @Valid @RequestBody URICreate body) {
