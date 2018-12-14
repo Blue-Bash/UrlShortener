@@ -105,6 +105,8 @@ project(':demo') {
 
         compile 'org.webjars:bootstrap:3.3.5'
         compile 'org.webjars:jquery:2.1.4'
+        // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator
+        compile 'org.springframework.boot:spring-boot-starter-actuator'
 
         // Testing framework
         testCompile 'org.springframework.boot:spring-boot-starter-test'
