@@ -7,7 +7,7 @@ $(document).ready(
                     type : "PUT",
                     url : "/uri",
                     contentType: "application/json",
-                    data: JSON.stringify({"uri":"http://google.es"}), // access in body
+                    data: JSON.stringify({"uri":$("#urlInput").val()}), // access in body
                     success : function(msg) {
                         $("#result").html(
                             "<div class='alert alert-success lead'><a target='_blank' href='"
@@ -18,7 +18,7 @@ $(document).ready(
                     },
                     error : function() {
                         $("#result").html(
-                            "<div class='alert alert-danger lead'>ERROR -> " + $("#urlInput").accessKeyLabel + "</div>");
+                            "<div class='alert alert-danger lead'>ERROR: \"" + $("#urlInput").val() + "\" isn't a valid URI.</div>");
                     }
                 });
             });
