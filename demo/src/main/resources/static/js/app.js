@@ -4,20 +4,21 @@ $(document).ready(
             function(event) {
                 event.preventDefault();
                 $.ajax({
-                    type : "POST",
-                    url : "/link",
-                    data : $(this).serialize(),
+                    type : "PUT",
+                    url : "/uri",
+                    contentType: "application/json",
+                    data: JSON.stringify({"uri":"http://google.es"}), // access in body
                     success : function(msg) {
                         $("#result").html(
                             "<div class='alert alert-success lead'><a target='_blank' href='"
-                            + msg.uri
+                            + window.location.origin + "/uri/" + msg.id
                             + "'>"
-                            + msg.uri
+                            + window.location.origin + "/uri/" + msg.id
                             + "</a></div>");
                     },
                     error : function() {
                         $("#result").html(
-                                "<div class='alert alert-danger lead'>ERROR</div>");
+                            "<div class='alert alert-danger lead'>ERROR -> " + $("#urlInput").accessKeyLabel + "</div>");
                     }
                 });
             });
