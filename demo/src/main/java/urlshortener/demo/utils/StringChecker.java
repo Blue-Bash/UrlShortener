@@ -8,6 +8,10 @@ public class StringChecker {
             return 500;
         }
 
+        if (string == ""){
+            return 500;
+        }
+
         int num = Integer.parseInt(string);
 
         if(num < 30){

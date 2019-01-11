@@ -15,6 +15,24 @@ $(document).ready(
                             + "'>"
                             + window.location.origin + "/uri/" + msg.id
                             + "</a></div>");
+
+                            var width = $("#qrWidth").val();
+                            var height = $("#qrHeight").val();
+
+                            $.ajax({
+                                type : "GET",
+                                url : "/qr/" + msg.id + "?width=" + width + "&height=" + height,
+                                contentType: "application/json",
+                                success : function(msg) {
+                                    $("#QRResult").html(
+                                        "<img src=\"data:image/jpeg;base64," + msg.qr + "\">");
+                                },
+                                error : function() {
+                                    $("#QRResult").html(
+                                        "<div class='alert alert-danger lead'>Error retrieving QR Code</div>");
+                                }
+                            });
+
                     },
                     error : function() {
                         $("#shortenerResult").html(
