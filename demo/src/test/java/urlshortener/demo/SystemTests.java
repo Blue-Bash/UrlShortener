@@ -44,7 +44,7 @@ public class SystemTests {
 		ResponseEntity<String> entity = restTemplate.getForEntity("http://localhost:"+port+"/", String.class);
 		assertThat(entity.getStatusCode(), is(HttpStatus.OK));
 		assertTrue(entity.getHeaders().getContentType().isCompatibleWith(new MediaType("text", "html")));
-		assertThat(entity.getBody(), containsString("<title>URL"));
+		assertThat(entity.getBody(), containsString("<title>TinyURI"));
 	}
 
 	@Test
