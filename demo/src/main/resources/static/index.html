@@ -19,7 +19,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template -->
-    <link href="css/landing-page.min.css" rel="stylesheet">
+    <link href="css/landing-page.css" rel="stylesheet">
 
     <script type="text/javascript" src="vendor/jquery3.3.1/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.js"></script>
@@ -34,16 +34,17 @@
     <nav class="navbar navbar-light bg-light static-top">
       <div class="container">
         <a class="navbar-brand" href="#">TinyURI</a>
+        <a class="btn btn-primary" href="/stats">Stats</a>
       </div>
     </nav>
 
-    <!-- Masthead -->
+    <!-- URI shortener -->
     <header class="masthead text-white text-center">
       <div class="overlay"></div>
       <div class="container">
         <div class="row">
           <div class="col-xl-9 mx-auto">
-            <h1 class="mb-5">Build a landing page for your business or project and generate more leads!</h1>
+            <h1 class="mb-5">Generate a short URI and a QR for your webpage</h1>
           </div>
           <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
             <form class="col-lg-12" role="form" id="shortener" action="">
@@ -64,6 +65,76 @@
         </div>
       </div>
     </header>
+
+    <!-- Edit URI -->
+    <section class="call-to-action text-white text-center">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 mx-auto">
+                    <h2 class="mb-4">Edit the name of your shortened URI</h2>
+                </div>
+                <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
+                    <form>
+                        <div class="form-group">
+                            <label for="name_shortUriInput">Your shortened URI</label>
+                            <input type="url" id="name_shortUriInput" class="form-control form-control-lg" placeholder="http://tinyuri.xyz/######">
+                            <small class="form-text text-muted">It starts with "http://tinyuri.xyz/".</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="name_hashPassInput">HashPass of your URI</label>
+                            <input type="password" id="name_hashPassInput" class="form-control form-control-lg" placeholder="******">
+                            <small class="form-text text-muted">The HashPass is a private key given to you only at the creation of a new shortened URI.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="name_newNameInput">New name for the shortened URI</label>
+                            <input type="text" id="name_newNameInput" class="form-control form-control-lg" placeholder="myCoolNewName">
+                            <small class="form-text text-muted">The name that will appear at the end of the URI. Example: http://tinyuri.xyz/myCoolNewName.</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-warning">Apply changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Delete URI -->
+    <section class="delete-uri text-white text-center">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 mx-auto">
+                    <h2 class="mb-4">Delete your shortened URI forever</h2>
+                </div>
+                <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
+                    <form>
+                        <div class="form-group">
+                            <label for="name_shortUriInput">Your shortened URI</label>
+                            <input type="url" id="delete_shortUriInput" class="form-control form-control-lg" placeholder="http://tinyuri.xyz/######">
+                            <small class="form-text text-muted">It starts with "http://tinyuri.xyz/".</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="name_hashPassInput">HashPass of your URI</label>
+                            <input type="password" id="delete_hashPassInput" class="form-control form-control-lg" placeholder="******">
+                            <small class="form-text text-muted">The HashPass is a private key given to you only at the creation of a new shortened URI.</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-danger">Delete FOREVER your URI</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+                    <p class="text-muted small mb-4 mb-lg-0">Created by Blue-Bash at Unizar.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
