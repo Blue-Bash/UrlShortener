@@ -62,7 +62,7 @@ public class QrApiController implements QrApi {
         // Default qr is required, so it's saved if the uri is shorthed
         if(w==500 && h==500){    
             URIItem uriItem = this.uriRepository.get(id);
-            qr = this.qrRepository.get(uriItem.getId());
+            qr = this.qrRepository.get(uriItem.getRedirection());
         }else{
             URIItem uriItem = this.uriRepository.get(id);
             qr = new QRItem();
