@@ -55,7 +55,7 @@
                         class="btn btn-lg btn-primary" type="submit">Short URI</button></span>
               </div>
               <br/>
-              <div class="input-group input-group-lg col-sm-6">
+              <div class="input-group input-group-lg col-lg-12">
                 <input id="qrWidth" type="text" class="center-block form-control input-lg"
                 title="Enter QR width" placeholder="QR width">
                 <input id="qrHeight" type="text" class="center-block form-control input-lg"
@@ -87,18 +87,18 @@
                 <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
                     <form id="nameEdit">
                         <div class="form-group">
-                            <label for="name_shortUriInput">Your shortened URI code</label>
-                            <input type="text" id="name_shortUriInput" class="form-control form-control-lg" placeholder="http://tinyuri.xyz/uri/######">
+                            <label for="nameShortUriInput">Your shortened URI code</label>
+                            <input type="text" id="nameShortUriInput" class="form-control form-control-lg" placeholder="http://tinyuri.xyz/uri/######">
                             <small class="form-text text-muted">After "http://tinyuri.xyz/".</small>
                         </div>
                         <div class="form-group">
-                            <label for="name_hashPassInput">HashPass of your URI</label>
-                            <input type="password" id="name_hashPassInput" class="form-control form-control-lg" placeholder="******">
+                            <label for="nameHashPassInput">HashPass of your URI</label>
+                            <input type="password" id="nameHashPassInput" class="form-control form-control-lg" placeholder="******">
                             <small class="form-text text-muted">The HashPass is a private key given to you only at the creation of a new shortened URI.</small>
                         </div>
                         <div class="form-group">
-                            <label for="name_newNameInput">New name for the shortened URI</label>
-                            <input type="text" id="name_newNameInput" class="form-control form-control-lg" placeholder="myCoolNewName">
+                            <label for="nameNewNameInput">New name for the shortened URI</label>
+                            <input type="text" id="nameNewNameInput" class="form-control form-control-lg" placeholder="myCoolNewName">
                             <small class="form-text text-muted">The name that will appear at the end of the URI. Example: http://tinyuri.xyz/myCoolNewName.</small>
                         </div>
                         <button type="submit" class="btn btn-primary btn-warning">Apply changes</button>
@@ -125,13 +125,13 @@
                 <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
                     <form id="uriDelete">
                         <div class="form-group">
-                            <label for="name_shortUriInput">Your shortened URI code</label>
-                            <input type="text" id="delete_shortUriInput" class="form-control form-control-lg" placeholder="http://tinyuri.xyz/uri/######">
+                            <label for="deleteShortUriInput">Your shortened URI code</label>
+                            <input type="text" id="deleteShortUriInput" class="form-control form-control-lg" placeholder="http://tinyuri.xyz/uri/######">
                             <small class="form-text text-muted">Starts with "http://tinyuri.xyz/uri/".</small>
                         </div>
                         <div class="form-group">
-                            <label for="name_hashPassInput">HashPass of your URI</label>
-                            <input type="password" id="delete_hashPassInput" class="form-control form-control-lg" placeholder="******">
+                            <label for="deleteHashPassInput">HashPass of your URI</label>
+                            <input type="password" id="deleteHashPassInput" class="form-control form-control-lg" placeholder="******">
                             <small class="form-text text-muted">The HashPass is a private key given to you only at the creation of a new shortened URI.</small>
                         </div>
                         <button type="submit" class="btn btn-primary btn-danger">Delete FOREVER your URI</button>

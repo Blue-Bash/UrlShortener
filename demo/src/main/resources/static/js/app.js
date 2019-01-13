@@ -42,7 +42,7 @@ $(document).ready(
               error: function () {
                 $("#shortenerResult").html(
                     "<div class='alert alert-danger lead'>ERROR: \"" + $(
-                    "#urlInput").val() + "\" isn't a valid URI.</div>");
+                    "#urlInput").val() + "\" isn't a valid URI or name is already taken.</div>");
               }
             });
           });
@@ -51,10 +51,10 @@ $(document).ready(
             event.preventDefault();
             $.ajax({
               type: "PUT",
-              url: "/uri/" + $("#name_shortUriInput").val(),
+              url: "/uri/" + $("#nameShortUriInput").val(),
               contentType: "application/json",
-              data: JSON.stringify({"new-name": $("#name_newNameInput").val(),
-                                    "hashpass": $("#name_hashPassInput").val()}), // access in body
+              data: JSON.stringify({"new-name": $("#nameNewNameInput").val(),
+                                    "hashpass": $("#nameHashPassInput").val()}), // access in body
               success: function (msg) {
                 $("#nameEditResult").html(
                     "<div class='alert alert-success lead'><a target='_blank' href='"
@@ -75,9 +75,9 @@ $(document).ready(
             event.preventDefault();
             $.ajax({
               type: "DELETE",
-              url: "/uri/" + $("#delete_shortUriInput").val(),
+              url: "/uri/" + $("#deleteShortUriInput").val(),
               headers: {
-                URIHashPass: $("#delete_hashPassInput").val()
+                URIHashPass: $("#deleteHashPassInput").val()
               },
               success: function () {
                 $("#deleteUriResult").html(
