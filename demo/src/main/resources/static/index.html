@@ -60,6 +60,8 @@
                 title="Enter QR width" placeholder="QR width">
                 <input id="qrHeight" type="text" class="center-block form-control input-lg"
                 title="Enter QR Height" placeholder="QR height">
+                <input id="customName" type="text" class="center-block form-control input-lg"
+                       title="Enter custom name" placeholder="Custom name">
               </div>
             </form>
           </div>
@@ -86,7 +88,7 @@
                     <form id="nameEdit">
                         <div class="form-group">
                             <label for="name_shortUriInput">Your shortened URI code</label>
-                            <input type="text" id="name_shortUriInput" class="form-control form-control-lg" placeholder="http://tinyuri.xyz/######">
+                            <input type="text" id="name_shortUriInput" class="form-control form-control-lg" placeholder="http://tinyuri.xyz/uri/######">
                             <small class="form-text text-muted">After "http://tinyuri.xyz/".</small>
                         </div>
                         <div class="form-group">
@@ -123,9 +125,9 @@
                 <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
                     <form id="uriDelete">
                         <div class="form-group">
-                            <label for="name_shortUriInput">Your shortened URI</label>
-                            <input type="text" id="delete_shortUriInput" class="form-control form-control-lg" placeholder="http://tinyuri.xyz/######">
-                            <small class="form-text text-muted">Starts with "http://tinyuri.xyz/".</small>
+                            <label for="name_shortUriInput">Your shortened URI code</label>
+                            <input type="text" id="delete_shortUriInput" class="form-control form-control-lg" placeholder="http://tinyuri.xyz/uri/######">
+                            <small class="form-text text-muted">Starts with "http://tinyuri.xyz/uri/".</small>
                         </div>
                         <div class="form-group">
                             <label for="name_hashPassInput">HashPass of your URI</label>

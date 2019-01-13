@@ -3,9 +3,10 @@ $(document).ready(
       $("#shortener").submit(
           function (event) {
             event.preventDefault();
+            var name = $("#customName").val();
             $.ajax({
               type: "PUT",
-              url: "/uri",
+              url: "/uri/" + name,
               contentType: "application/json",
               data: JSON.stringify({"uri": $("#urlInput").val()}), // access in body
               success: function (msg) {
@@ -45,7 +46,7 @@ $(document).ready(
               }
             });
           });
-      $("#nameEdit").submit(
+      $("#nameEdit").submit( // Implemented as API but not working
           function (event) {
             event.preventDefault();
             $.ajax({
