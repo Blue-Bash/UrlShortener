@@ -83,11 +83,11 @@
                     <h2 class="mb-4">Edit the name of your shortened URI</h2>
                 </div>
                 <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
-                    <form>
+                    <form id="nameEdit">
                         <div class="form-group">
-                            <label for="name_shortUriInput">Your shortened URI</label>
-                            <input type="url" id="name_shortUriInput" class="form-control form-control-lg" placeholder="http://tinyuri.xyz/######">
-                            <small class="form-text text-muted">It starts with "http://tinyuri.xyz/".</small>
+                            <label for="name_shortUriInput">Your shortened URI code</label>
+                            <input type="text" id="name_shortUriInput" class="form-control form-control-lg" placeholder="http://tinyuri.xyz/######">
+                            <small class="form-text text-muted">After "http://tinyuri.xyz/".</small>
                         </div>
                         <div class="form-group">
                             <label for="name_hashPassInput">HashPass of your URI</label>
@@ -102,6 +102,12 @@
                         <button type="submit" class="btn btn-primary btn-warning">Apply changes</button>
                     </form>
                 </div>
+                <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+                  <div class="col-sm-12 text-center">
+                    <br />
+                    <div id="nameEditResult"></div>
+                  </div>
+              </div>
             </div>
         </div>
     </section>
@@ -115,11 +121,11 @@
                     <h2 class="mb-4">Delete your shortened URI forever</h2>
                 </div>
                 <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
-                    <form>
+                    <form id="uriDelete">
                         <div class="form-group">
                             <label for="name_shortUriInput">Your shortened URI</label>
-                            <input type="url" id="delete_shortUriInput" class="form-control form-control-lg" placeholder="http://tinyuri.xyz/######">
-                            <small class="form-text text-muted">It starts with "http://tinyuri.xyz/".</small>
+                            <input type="text" id="delete_shortUriInput" class="form-control form-control-lg" placeholder="http://tinyuri.xyz/######">
+                            <small class="form-text text-muted">Starts with "http://tinyuri.xyz/".</small>
                         </div>
                         <div class="form-group">
                             <label for="name_hashPassInput">HashPass of your URI</label>
@@ -129,6 +135,12 @@
                         <button type="submit" class="btn btn-primary btn-danger">Delete FOREVER your URI</button>
                     </form>
                 </div>
+                <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+                  <div class="col-sm-12 text-center">
+                    <br />
+                    <div id="deleteUriResult"></div>
+                  </div>
+              </div>
             </div>
         </div>
     </section>
