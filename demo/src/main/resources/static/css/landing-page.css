@@ -156,6 +156,26 @@ header.masthead h1 {
   opacity: 0.3;
 }
 
+.error {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: #712c2b;
+  background-size: cover;
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+}
+
+.error .overlay {
+  position: absolute;
+  background-color: #212529;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.3;
+}
+
 
 footer.footer {
   padding-top: 4rem;
