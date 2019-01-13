@@ -46,6 +46,26 @@ $(document).ready(
               }
             });
           });
+
+      $("#qrViewer").submit( // Implemented as API but not working
+          function (event) {
+            event.preventDefault();
+            $.ajax({
+              type: "GET",
+              url: "/qr/" + $("#qrUriInput").val() + "?width=" + $("#qrWidthInput").val() + "&height="
+              + $("#qrHeightInput").val(),
+              contentType: "application/json",
+              success: function (msg) {
+                $("#qrViewerResult").html(
+                    "<img src=\"data:image/jpeg;base64," + msg.qr + "\">");
+              },
+              error: function () {
+                $("#qrViewerResult").html(
+                    "<div class='alert alert-danger lead'>Error retrieving QR Code</div>");
+              }
+            });
+          });
+
       $("#nameEdit").submit( // Implemented as API but not working
           function (event) {
             event.preventDefault();

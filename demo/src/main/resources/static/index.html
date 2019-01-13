@@ -52,7 +52,7 @@
                 <input id="urlInput" type="text" class="center-block form-control input-lg"
                        title="Enter a URL" placeholder="https:// Your URI here">
                 <span class="input-group-btn"><button
-                        class="btn btn-lg btn-primary" type="submit">Short URI</button></span>
+                        class="btn btn-lg btn-success" type="submit">Short URI</button></span>
               </div>
               <br/>
               <div class="input-group input-group-lg col-lg-12">
@@ -70,6 +70,44 @@
               <br />
               <div id="shortenerResult"></div>
               <div id="QRResult"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- QR Viewer  -->
+    <header class="qrViewer text-white text-center">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-9 mx-auto">
+            <h1 class="mb-5">Generate custom QR</h1>
+          </div>
+          <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
+            <form id="qrViewer">
+              <div class="form-group">
+                <label for="qrUriInput">Your shortened URI code</label>
+                <input type="text" id="qrUriInput" class="form-control form-control-lg" placeholder="http://tinyuri.xyz/uri/######">
+                <small class="form-text text-muted">After "http://tinyuri.xyz/uri/".</small>
+              </div>
+              <div class="form-group">
+                <label for="qrWidthInput">QR Width</label>
+                <input type="number" id="qrWidthInput" class="form-control form-control-lg" >
+                <small class="form-text text-muted">Must be a integer number o left empty for default.</small>
+              </div>
+              <div class="form-group">
+                <label for="qrHeightInput">QR Height</label>
+                <input type="number" id="qrHeightInput" class="form-control form-control-lg" >
+                <small class="form-text text-muted">Must be a integer number o left empty for default.</small>
+              </div>
+              <button type="submit" class="btn btn-primary btn-primary">Generate QR</button>
+            </form>
+          </div>
+          <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+            <div class="col-sm-12 text-center">
+              <br />
+              <div id="qrViewerResult"></div>
             </div>
           </div>
         </div>
