@@ -7,10 +7,7 @@ import urlshortener.demo.repository.AbstractRepository;
 import urlshortener.demo.repository.IRepository;
 import urlshortener.demo.repository.URIRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class URIRepositoryImpl extends AbstractRepository<String, URIItem> implements URIRepository {
 
@@ -19,6 +16,11 @@ public class URIRepositoryImpl extends AbstractRepository<String, URIItem> imple
 
     public URIRepositoryImpl(IRepository<String, URIItem> repo) {
         this.repo = repo;
+    }
+
+    @Override
+    public Map<String, URIItem> getAllURIS() {
+        return super.getAllUris();
     }
 
     @Override

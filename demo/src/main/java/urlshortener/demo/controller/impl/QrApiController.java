@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import urlshortener.demo.controller.QrApi;
 import urlshortener.demo.domain.QRItem;
+import urlshortener.demo.domain.URIItem;
+import urlshortener.demo.repository.QRRepository;
+import urlshortener.demo.repository.URIRepository;
 import urlshortener.demo.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,10 +29,16 @@ public class QrApiController implements QrApi {
 
     private final HttpServletRequest request;
 
+    private final QRRepository qrRepository;
+    
+    private final URIRepository uriRepository;
+
     @org.springframework.beans.factory.annotation.Autowired
-    public QrApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    public QrApiController(ObjectMapper objectMapper, HttpServletRequest request, QRRepository qrRepository, URIRepository uriRepository) {
         this.objectMapper = objectMapper;
         this.request = request;
+        this.qrRepository = qrRepository;
+        this.uriRepository = uriRepository;
     }
 
     public ResponseEntity<QRItem> getQR(@ApiParam(value = "",required=true) @PathVariable("id") String id) {
@@ -37,15 +46,30 @@ public class QrApiController implements QrApi {
         String accept = request.getHeader("Accept");
         String width = request.getParameter("width");
         String height = request.getParameter("height");
+        
+        QRItem qr;
 
         // Check that width and heigth params are not null or negative
         // and return int
         int w = StringChecker.checkString2Int(width);
         int h = StringChecker.checkString2Int(height);
+        
+        // If uri is not in the URIRepository return 404
+        if (!this.uriRepository.contains(id)){
+            return new ResponseEntity<QRItem>(HttpStatus.NOT_FOUND);
+        }
 
-        QRItem qr = new QRItem();
-        qr.setUri(id);
-        qr.convertBase64(w, h);
+        // Default qr is required, so it's saved if the uri is shorthed
+        if(w==500 && h==500){    
+            URIItem uriItem = this.uriRepository.get(id);
+            qr = this.qrRepository.get(uriItem.getRedirection());
+        }else{
+            URIItem uriItem = this.uriRepository.get(id);
+            qr = new QRItem();
+            qr.setUri(uriItem.getRedirection());
+            qr.convertBase64(w, h);
+        }
+
         return new ResponseEntity<QRItem>(qr, HttpStatus.OK);
     }
 
