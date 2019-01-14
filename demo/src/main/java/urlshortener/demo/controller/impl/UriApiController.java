@@ -29,6 +29,8 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
+import java.util.Map;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2018-11-21T05:15:43.072Z[GMT]")
 
@@ -114,7 +116,7 @@ public class UriApiController implements UriApi {
         String accept = request.getHeader("Accept");
         CheckAlive c = new CheckAlive();
         URI location = null;
-
+        Map<String, Date> fechas = uriService.getAllFechas();
 
         String redirection;
         URIItem item = uriService.get(id);
@@ -129,11 +131,21 @@ public class UriApiController implements UriApi {
                 //OK
                 //Para esa URI, se registra la fecha actual como útima fecha en la que estuvo viva
                 location = new URI(redirection);
+                uriService.removeFecha(item.getId());
+                uriService.addFecha(item.getId(), new Date());
             }
             else {
                 //Cualquier otra cosa aparte de un código 200 significará que la URI está muerta
                 //Se obtiene la última vez que la URI estuvo viva
                 //  -Si la diferencia entre la fecha actual y la fecha recuperada es >= K, entonces la URI se borra
+                long actual = System.currentTimeMillis();
+                long fechaUri = fechas.get(item.getId()).getTime();
+                long diff = actual - fechaUri;
+                long days = diff / (604800000);
+                if (days >= 7.0){
+                    uriService.remove(item.getId());
+                }
+
                 return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
             }
 

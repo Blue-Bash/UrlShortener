@@ -1,10 +1,18 @@
 package urlshortener.demo.repository;
 
 import urlshortener.demo.domain.URIItem;
-import java.util.List;
+
+import java.util.Date;
+import java.util.Map;
 
 public interface URIRepository extends IRepository<String, URIItem> {
-    List<URIItem> checkURI();
+    Map<String, URIItem> getAllURIS();
+
+    Map<String, Date> getAllFechas();
+
+    void removeFecha(String id);
+
+    void addFecha(String id, Date fecha);
 
     long getRedirectionAmount(String hash, long timeFromNow);
 
