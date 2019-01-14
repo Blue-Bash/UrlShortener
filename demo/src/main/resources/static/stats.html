@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>TinyURI Stats</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="css/landing-page.css" rel="stylesheet">
+
+    <script type="text/javascript" src="vendor/jquery3.3.1/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.js"></script>
+
+    <script type="text/javascript" src="js/stats.js"></script>
+
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-light bg-light fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">TinyURI</a>
+        <form id="uriStats">
+            <div class="input-group input-group-lg col-sm-12">
+                <input id="urlInput" type="text" class="center-block form-control input-lg"
+                       title="Enter URI code" placeholder="https://tinyuri.xyz/uri/#####">
+                <span class="input-group-btn"><button
+                        class="btn btn-lg btn-success" type="submit">Show URI Stats</button></span>
+            </div>
+        </form>
+    </div>
+</nav>
+
+<section class="stats text-white text-center">
+    <div class="overlay"></div>
+    <div>
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+                <h1 class="mb-4">Stats of TinyURI services</h1>
+            </div>
+            <div class="col-xl-12 mx-auto" style="background-color: rgba(255,255,255,0.1)">
+                <p style="font-size: 70pt;color:orange">1.025.485</p>
+                <p style="font-size: 20pt">Shortened URIs accessed</p>
+            </div>
+
+            <div class="col-xl-12 mx-auto" style="background-color: rgba(255,255,255,0.2)">
+                <div class="row">
+                    <div class="col-xl-4 col-sm-12">
+                        <p style="font-size: 70pt;color:orange">8.437</p>
+                        <p style="font-size: 20pt">Shortened URI</p>
+                    </div>
+                    <div class="col-xl-4 col-sm-12">
+                        <p style="font-size: 70pt;color:orange">24</p>
+                        <p style="font-size: 20pt">Deleted URI</p>
+                    </div>
+                    <div class="col-xl-4 col-sm-12">
+                        <p style="font-size: 70pt;color:orange">7.824</p>
+                        <p style="font-size: 20pt">Working URI</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12 mx-auto" style="background-color: rgba(255,255,255,0.3)">
+                <div class="row">
+                    <div class="col-xl-4 col-sm-12">
+                        <p style="font-size: 70pt;color:orange">12.457</p>
+                        <p style="font-size: 20pt">Generated QR</p>
+                    </div>
+                    <div class="col-xl-4 col-sm-12">
+                        <p style="font-size: 70pt;color:orange">16</p>
+                        <p style="font-size: 20pt">Deleted QR</p>
+                    </div>
+                    <div class="col-xl-4 col-sm-12">
+                        <p style="font-size: 70pt;color:orange">9.247</p>
+                        <p style="font-size: 20pt">Working QR</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
