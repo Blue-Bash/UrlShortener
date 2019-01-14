@@ -1,6 +1,7 @@
 package urlshortener.demo.controller.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.micrometer.core.instrument.MeterRegistry;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,11 +46,14 @@ public class UriApiController implements UriApi {
 
     private final URIRepository uriService;
 
+    private final MeterRegistry meterRegistry;
+
     @org.springframework.beans.factory.annotation.Autowired
-    public UriApiController(ObjectMapper objectMapper, HttpServletRequest request, URIRepository uriService) {
+    public UriApiController(ObjectMapper objectMapper, HttpServletRequest request, URIRepository uriService, MeterRegistry meterRegistry) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.uriService = uriService;
+        this.meterRegistry = meterRegistry;
     }
 
     public ResponseEntity<URIItem> changeURI(@ApiParam(value = "Optional description in *Markdown*" ,required=true )  @Valid @RequestBody URICreate body,@ApiParam(value = "",required=true) @PathVariable("name") String name) {
@@ -103,6 +107,9 @@ public class UriApiController implements UriApi {
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
+
+        meterRegistry.counter("uri." + id + ".accessed").increment();
+        meterRegistry.counter("uri.accessed").increment();
 
         return new ResponseEntity<Void>(responseHeaders, HttpStatus.TEMPORARY_REDIRECT);
     }

@@ -1,12 +1,10 @@
 package urlshortener.demo.domain;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * Stats
@@ -15,79 +13,127 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2018-11-26T14:20:22.002Z[GMT]")
 
 public class Stats   {
-  @JsonProperty("redirected-uris")
-  private Integer redirectedUris = null;
+  @JsonProperty("cpu.usage")
+  private BigDecimal cpuUsage = null;
 
-  @JsonProperty("server-load")
-  private BigDecimal serverLoad = null;
+  @JsonProperty("system.cpu.usage")
+  private BigDecimal serverUsage = null;
 
-  @JsonProperty("generated-qr")
-  private Integer generatedQr = null;
+  @JsonProperty("system.memory.usage")
+  private Integer memoryUsage = null;
 
-  public Stats redirectedUris(Integer redirectedUris) {
-    this.redirectedUris = redirectedUris;
-    return this;
+  @JsonProperty("uris.created")
+  private BigDecimal urisCreated = null;
+
+  @JsonProperty("uris.accessed")
+  private BigDecimal urisAccessed = null;
+
+  @JsonProperty("uris.removed")
+  private BigDecimal urisRemoved = null;
+
+  @JsonProperty("uris.now")
+  private BigDecimal urisNow = null;
+
+  @JsonProperty("qr.created")
+  private BigDecimal qrCreated = null;
+
+  @JsonProperty("qr.removed")
+  private BigDecimal qrRemoved = null;
+
+  @JsonProperty("qr.now")
+  private BigDecimal qrNow = null;
+
+  @JsonProperty("qr.accessed")
+  private BigDecimal qrAccessed = null;
+
+
+  public void setCpuUsage(BigDecimal cpuUsage) {
+    this.cpuUsage = cpuUsage;
   }
 
-  /**
-   * Get redirectedUris
-   * @return redirectedUris
-  **/
-  @ApiModelProperty(example = "3457", required = true, value = "")
-  @NotNull
-
-
-  public Integer getRedirectedUris() {
-    return redirectedUris;
+  public void setServerUsage(BigDecimal serverUsage) {
+    this.serverUsage = serverUsage;
   }
 
-  public void setRedirectedUris(Integer redirectedUris) {
-    this.redirectedUris = redirectedUris;
+  public void setMemoryUsage(Integer memoryUsage) {
+    this.memoryUsage = memoryUsage;
   }
 
-  public Stats serverLoad(BigDecimal serverLoad) {
-    this.serverLoad = serverLoad;
-    return this;
+  public void setUrisCreated(BigDecimal urisCreated) {
+    this.urisCreated = urisCreated;
   }
 
-  /**
-   * Get serverLoad
-   * @return serverLoad
-  **/
-  @ApiModelProperty(example = "0.79", required = true, value = "")
-  @NotNull
-
-  @Valid
-
-  public BigDecimal getServerLoad() {
-    return serverLoad;
+  public void setUrisRemoved(BigDecimal urisRemoved) {
+    this.urisRemoved = urisRemoved;
   }
 
-  public void setServerLoad(BigDecimal serverLoad) {
-    this.serverLoad = serverLoad;
+  public void setUrisNow(BigDecimal urisNow) {
+    this.urisNow = urisNow;
   }
 
-  public Stats generatedQr(Integer generatedQr) {
-    this.generatedQr = generatedQr;
-    return this;
+  public void setQrCreated(BigDecimal qrCreated) {
+    this.qrCreated = qrCreated;
   }
 
-  /**
-   * Get generatedQr
-   * @return generatedQr
-  **/
-  @ApiModelProperty(example = "1243", required = true, value = "")
-  @NotNull
-
-
-  public Integer getGeneratedQr() {
-    return generatedQr;
+  public void setQrRemoved(BigDecimal qrRemoved) {
+    this.qrRemoved = qrRemoved;
   }
 
-  public void setGeneratedQr(Integer generatedQr) {
-    this.generatedQr = generatedQr;
+  public void setQrNow(BigDecimal qrNow) {
+    this.qrNow = qrNow;
   }
 
+  public BigDecimal getQrAccessed() {
+    return qrAccessed;
+  }
+
+  public void setQrAccessed(BigDecimal qrAccessed) {
+    this.qrAccessed = qrAccessed;
+  }
+
+  public BigDecimal getUrisAccessed() {
+    return urisAccessed;
+  }
+
+  public void setUrisAccessed(BigDecimal urisAccessed) {
+    this.urisAccessed = urisAccessed;
+  }
+
+  public BigDecimal getCpuUsage() {
+    return cpuUsage;
+  }
+
+  public BigDecimal getServerUsage() {
+    return serverUsage;
+  }
+
+  public Integer getMemoryUsage() {
+    return memoryUsage;
+  }
+
+  public BigDecimal getUrisCreated() {
+    return urisCreated;
+  }
+
+  public BigDecimal getUrisRemoved() {
+    return urisRemoved;
+  }
+
+  public BigDecimal getUrisNow() {
+    return urisNow;
+  }
+
+  public BigDecimal getQrCreated() {
+    return qrCreated;
+  }
+
+  public BigDecimal getQrRemoved() {
+    return qrRemoved;
+  }
+
+  public BigDecimal getQrNow() {
+    return qrNow;
+  }
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -98,14 +144,20 @@ public class Stats   {
       return false;
     }
     Stats stats = (Stats) o;
-    return Objects.equals(this.redirectedUris, stats.redirectedUris) &&
-        Objects.equals(this.serverLoad, stats.serverLoad) &&
-        Objects.equals(this.generatedQr, stats.generatedQr);
+    return Objects.equals(this.cpuUsage, stats.cpuUsage) &&
+        Objects.equals(this.serverUsage, stats.serverUsage) &&
+        Objects.equals(this.urisCreated, stats.urisCreated) &&
+        Objects.equals(this.urisRemoved, stats.urisRemoved) &&
+        Objects.equals(this.urisNow, stats.urisNow) &&
+        Objects.equals(this.qrCreated, stats.qrCreated) &&
+        Objects.equals(this.qrRemoved, stats.qrRemoved) &&
+        Objects.equals(this.qrNow, stats.qrNow) &&
+        Objects.equals(this.memoryUsage, stats.memoryUsage);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(redirectedUris, serverLoad, generatedQr);
+    return Objects.hash(cpuUsage, serverUsage, memoryUsage, urisCreated, urisNow, urisRemoved, qrCreated, qrRemoved, qrNow);
   }
 
   @Override
@@ -113,9 +165,15 @@ public class Stats   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Stats {\n");
     
-    sb.append("    redirectedUris: ").append(toIndentedString(redirectedUris)).append("\n");
-    sb.append("    serverLoad: ").append(toIndentedString(serverLoad)).append("\n");
-    sb.append("    generatedQr: ").append(toIndentedString(generatedQr)).append("\n");
+    sb.append("    cpuUsage: ").append(toIndentedString(cpuUsage)).append("\n");
+    sb.append("    serverUsage: ").append(toIndentedString(serverUsage)).append("\n");
+    sb.append("    memoryUsage: ").append(toIndentedString(memoryUsage)).append("\n");
+    sb.append("    urisCreated: ").append(toIndentedString(urisCreated)).append("\n");
+    sb.append("    urisRemoved: ").append(toIndentedString(urisRemoved)).append("\n");
+    sb.append("    urisNow: ").append(toIndentedString(urisNow)).append("\n");
+    sb.append("    qrCreated: ").append(toIndentedString(qrCreated)).append("\n");
+    sb.append("    qrRemoved: ").append(toIndentedString(qrRemoved)).append("\n");
+    sb.append("    qrNow: ").append(toIndentedString(qrNow)).append("\n");
     sb.append("}");
     return sb.toString();
   }
