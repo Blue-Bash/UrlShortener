@@ -78,7 +78,7 @@ public class UriApiController implements UriApi {
 
     }
 
-    public ResponseEntity<URIItem> createNewUri(URICreate uri, String name) {
+    private ResponseEntity<URIItem> createNewUri(URICreate uri, String name) {
         CheckAlive c = new CheckAlive();
 
         ParameterUtils.checkParameter(name);
@@ -111,10 +111,9 @@ public class UriApiController implements UriApi {
         return createNewUri(body, Long.toHexString(uriService.getNextID()));
     }
 
-    public ResponseEntity<URIItem> createURIwithName(@ApiParam(value = "URI" ,required=true )  @Valid @RequestBody URICreate body,
-                                              @ApiParam(value = "actual name", required=true) @PathVariable("name") String name) {
+    public ResponseEntity<URIItem> createURIwithName(@ApiParam(value = "URI" ,required=true )  @Valid @RequestBody URICreate body) {
         String accept = request.getHeader("Accept");
-        return createNewUri(body, name);
+        return createNewUri(body, body.getName());
     }
 
     public ResponseEntity<Void> deleteURI(@ApiParam(value = "",required=true) @PathVariable("id") String id, @RequestHeader("URIHashPass") String hashpass) {

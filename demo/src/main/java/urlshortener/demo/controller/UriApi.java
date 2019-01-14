@@ -42,12 +42,11 @@ public interface UriApi {
             @ApiResponse(code = 201, message = "The URI redirection has been successfully created", response = URIItem.class),
             @ApiResponse(code = 400, message = "The URI was not reachable", response = URIItem.class)
     })
-    @RequestMapping(value = "/uri/{name}",
+    @RequestMapping(value = "/uri",
             produces = { "application/json" },
             consumes = { "application/json" },
-            method = RequestMethod.POST)
-    ResponseEntity<URIItem> createURIwithName(@ApiParam(value = "URI" ,required=true )  @Valid @RequestBody URICreate body,
-                                              @ApiParam(value = "actual name", required=true) @PathVariable("name") String name);
+            method = RequestMethod.PUT)
+    ResponseEntity<URIItem> createURIwithName(@ApiParam(value = "URI" ,required=true )  @Valid @RequestBody URICreate body);
 
 
     @ApiOperation(value = "Deletes an existing URI and its content.", nickname = "deleteURI", notes = "Remove a URI redirection ", tags={ "F0 - The app will short, storage and get URI&#39;s", })

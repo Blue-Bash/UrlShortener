@@ -55,7 +55,7 @@ public class UriApiControllerIntegrationTest {
     public void createWithNameOK(){
         //Test 1: Create OK
         String uriName = "testURI";
-        ResponseEntity<URIItem> response = api.changeURI(correctURI, uriName);
+        ResponseEntity<URIItem> response = api.createURIwithName(correctURI.name(uriName));
         URIItem item = response.getBody();
 
         assertNotNull(item);
@@ -69,12 +69,12 @@ public class UriApiControllerIntegrationTest {
         String uriName = "testURI";
 
         try {
-            api.changeURI(invalidURI, uriName);
+            api.createURIwithName(invalidURI.name(uriName));
             fail();
         }catch (InvalidRequestParametersException ignored){ }
 
         try {
-            api.changeURI(emptyURI, uriName);
+            api.createURIwithName(emptyURI.name(uriName));
             fail();
         }catch (InvalidRequestParametersException ignored){ }
     }
@@ -84,12 +84,12 @@ public class UriApiControllerIntegrationTest {
         //Test 3: Create with invalid hash
 
         try {
-            api.changeURI(correctURI, null);
+            api.createURIwithName(correctURI.name(null));
             fail();
         }catch (InvalidRequestParametersException ignored){ }
 
         try {
-            api.changeURI(correctURI, "");
+            api.createURIwithName(correctURI.name(""));
             fail();
         }catch (InvalidRequestParametersException ignored){ }
     }
