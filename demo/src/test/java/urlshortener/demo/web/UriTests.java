@@ -138,6 +138,21 @@ public class UriTests {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    public void newNameURI() throws Exception {
+        URIItem uriItem = someURI();
+        String id = uriItem.getId();
+
+        doNothing().when(service).add(uriItem);
+        doReturn(uriItem).when(service).get(uriItem.getId());
+
+        String newName = "newName";
+        URIUpdate uriUpdate = (URIUpdate) new URIUpdate().newName("newName").hashpass(uriItem.getHashpass());
+
+        mockMvc.perform(put("/uri/{id}", id).contentType(MediaType.APPLICATION_JSON).content(mapObject(uriUpdate))).andDo(print())
+                .andExpect(status().isCreated());
+    }
+
     /*
      * Test DELETE /uri/{id}
      */
