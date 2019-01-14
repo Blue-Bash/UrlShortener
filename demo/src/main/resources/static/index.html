@@ -28,13 +28,13 @@
 
   </head>
 
-  <body data-spy="scroll" data-target=".navbar">
+  <body >
 
     <!-- Navigation -->
     <nav class="navbar navbar-light bg-light fixed-top">
       <div class="container">
         <a class="navbar-brand" href="#">TinyURI</a>
-        <a class="btn btn-primary" href="/stats">Stats</a>
+        <a class="btn btn-primary" href="/stats.html">Stats</a>
       </div>
     </nav>
 
@@ -93,12 +93,12 @@
               </div>
               <div class="form-group">
                 <label for="qrWidthInput">QR Width</label>
-                <input type="number" id="qrWidthInput" class="form-control form-control-lg" >
+                <input type="number" id="qrWidthInput" class="form-control form-control-lg" placeholder="500" >
                 <small class="form-text text-muted">Must be a integer number o left empty for default.</small>
               </div>
               <div class="form-group">
                 <label for="qrHeightInput">QR Height</label>
-                <input type="number" id="qrHeightInput" class="form-control form-control-lg" >
+                <input type="number" id="qrHeightInput" class="form-control form-control-lg" placeholder="500" >
                 <small class="form-text text-muted">Must be a integer number o left empty for default.</small>
               </div>
               <button type="submit" class="btn btn-primary btn-primary">Generate QR</button>
@@ -113,6 +113,34 @@
         </div>
       </div>
     </header>
+
+    <!-- Check URI -->
+    <section class="check-uri text-white text-center">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-9 mx-auto">
+            <h2 class="mb-4">Check availability of your URI</h2>
+          </div>
+          <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
+            <form id="check">
+              <div class="form-group">
+                <label for="checkUriInput">Your shortened URI code</label>
+                <input type="text" id="checkUriInput" class="form-control form-control-lg" placeholder="http://tinyuri.xyz/uri/######">
+                <small class="form-text text-muted">After "http://tinyuri.xyz/".</small>
+              </div>
+              <button type="submit" class="btn btn-primary btn-light">Check</button>
+            </form>
+          </div>
+          <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+            <div class="col-sm-12 text-center">
+              <br />
+              <div id="checkUriResult"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Edit URI -->
     <section class="call-to-action text-white text-center">

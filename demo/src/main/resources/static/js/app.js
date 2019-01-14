@@ -112,4 +112,21 @@ $(document).ready(
               }
             });
           });
+
+      $("#check").submit(
+          function (event) {
+            event.preventDefault();
+            $.ajax({
+              type: "GET",
+              url: "/check/" + $("#checkUriInput").val(),
+              success: function () {
+                $("#checkUriResult").html(
+                    "<div class='alert alert-success lead'><p>URI is available</p></div>");
+              },
+              error: function () {
+                $("#checkUriResult").html(
+                    "<div class='alert alert-danger lead'>URI not available.</div>");
+              }
+            });
+          });
     });
