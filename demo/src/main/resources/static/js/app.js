@@ -43,6 +43,7 @@ $(document).ready(
                 $("#shortenerResult").html(
                     "<div class='alert alert-danger lead'>ERROR: \"" + $(
                     "#urlInput").val() + "\" isn't a valid URI or name is already taken.</div>");
+                $("#QRResult").html("<div></div>");
               }
             });
           });
