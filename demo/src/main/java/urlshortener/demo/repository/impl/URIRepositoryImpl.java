@@ -19,16 +19,6 @@ public class URIRepositoryImpl extends AbstractRepository<String, URIItem> imple
     }
 
     @Override
-    public void removeFecha(String id) {
-        super.removeFecha(id);
-    }
-
-    @Override
-    public void addFecha(String id, Date fecha) {
-        super.addFecha(id, fecha);
-    }
-
-    @Override
     public long getRedirectionAmount(String hash, long timeFromNow) {
         URIStats statsData = this.stats.get(hash);
         if(statsData == null) throw new UnknownEntityException(HttpStatus.BAD_REQUEST.value(), "Unknown URI " + hash);
