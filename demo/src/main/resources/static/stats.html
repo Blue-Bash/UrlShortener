@@ -21,8 +21,8 @@
     <link href="css/landing-page.css" rel="stylesheet">
 
     <script type="text/javascript" src="vendor/jquery3.3.1/jquery-3.3.1.min.js"></script>
-    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
-    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
     <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.js"></script>
 
     <script type="text/javascript" src="js/stats.js"></script>
@@ -57,22 +57,29 @@
                 <div id="disconnectAlert" class='alert alert-danger lead'>Disconnected from server. Stats not updating.</div>
             </div>
             <div class="col-xl-12 mx-auto" style="background-color: rgba(255,255,255,0.1)">
-                <p id="accessedURI"style="font-size: 70pt;color:orange">1.025.485</p>
-                <p style="font-size: 20pt">Shortened URIs accessed</p>
+                <div class="row">
+                    <div class="col-xl-6 col-sm-12">
+                        <p id="uris-accessed" style="font-size: 70pt;color:orange">12.457</p>
+                        <p style="font-size: 20pt">Accessed URI</p>
+                    </div>
+                    <div class="col-xl-6 col-sm-12">
+                        <p id="qr-accessed" style="font-size: 70pt;color:orange">16</p>
+                        <p style="font-size: 20pt">Accessed QR</p>
+                    </div>
+                </div>
             </div>
-
             <div class="col-xl-12 mx-auto" style="background-color: rgba(255,255,255,0.2)">
                 <div class="row">
                     <div class="col-xl-4 col-sm-12">
-                        <p id="shortenedURI" style="font-size: 70pt;color:orange">8.437</p>
+                        <p id="uris-created" style="font-size: 70pt;color:orange">8.437</p>
                         <p style="font-size: 20pt">Shortened URI</p>
                     </div>
                     <div class="col-xl-4 col-sm-12">
-                        <p id="deletedURI" style="font-size: 70pt;color:orange">24</p>
+                        <p id="uris-removed" style="font-size: 70pt;color:orange">24</p>
                         <p style="font-size: 20pt">Deleted URI</p>
                     </div>
                     <div class="col-xl-4 col-sm-12">
-                        <p id="workingURI" style="font-size: 70pt;color:orange">7.824</p>
+                        <p id="uris-now" style="font-size: 70pt;color:orange">7.824</p>
                         <p style="font-size: 20pt">Working URI</p>
                     </div>
                 </div>
@@ -80,16 +87,32 @@
             <div class="col-xl-12 mx-auto" style="background-color: rgba(255,255,255,0.3)">
                 <div class="row">
                     <div class="col-xl-4 col-sm-12">
-                        <p id="generatedQR" style="font-size: 70pt;color:orange">12.457</p>
+                        <p id="qr-created" style="font-size: 70pt;color:orange">12.457</p>
                         <p style="font-size: 20pt">Generated QR</p>
                     </div>
                     <div class="col-xl-4 col-sm-12">
-                        <p id="deleteQR" style="font-size: 70pt;color:orange">16</p>
+                        <p id="qr-removed" style="font-size: 70pt;color:orange">16</p>
                         <p style="font-size: 20pt">Deleted QR</p>
                     </div>
                     <div class="col-xl-4 col-sm-12">
-                        <p id="workingQR" style="font-size: 70pt;color:orange">9.247</p>
+                        <p id="qr-now" style="font-size: 70pt;color:orange">9.247</p>
                         <p style="font-size: 20pt">Working QR</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12 mx-auto" style="background-color: rgba(255,255,255,0.4)">
+                <div class="row">
+                    <div class="col-xl-4 col-sm-12">
+                        <span id="cpu-usage" style="font-size: 70pt;color:orange">12</span><span style="font-size: 35pt;color:orange">%</span><br />
+                        <span style="font-size: 20pt">CPU Usage</span>
+                    </div>
+                    <div class="col-xl-4 col-sm-12">
+                        <span id="system-cpu-usage" style="font-size: 70pt;color:orange">16</span><span style="font-size: 35pt;color:orange">%</span><br />
+                        <span style="font-size: 20pt">System CPU Usage</span>
+                    </div>
+                    <div class="col-xl-4 col-sm-12">
+                        <span id="system-memory-usage" style="font-size: 70pt;color:orange">9.946</span><span style="font-size: 35pt;color:orange">MB</span><br />
+                        <span style="font-size: 20pt">Working QR</span>
                     </div>
                 </div>
             </div>
