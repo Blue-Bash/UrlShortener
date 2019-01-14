@@ -21,12 +21,16 @@
     <link href="css/landing-page.css" rel="stylesheet">
 
     <script type="text/javascript" src="vendor/jquery3.3.1/jquery-3.3.1.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.js"></script>
 
     <script type="text/javascript" src="js/stats.js"></script>
 
 </head>
 <body>
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+    enabled. Please enable Javascript and reload this page!</h2></noscript>
 <!-- Navigation -->
 <nav class="navbar navbar-light bg-light fixed-top">
     <div class="container">
@@ -36,7 +40,7 @@
                 <input id="urlInput" type="text" class="center-block form-control input-lg"
                        title="Enter URI code" placeholder="https://tinyuri.xyz/uri/#####">
                 <span class="input-group-btn"><button
-                        class="btn btn-lg btn-success" type="submit">Show URI Stats</button></span>
+                        id="uriStatsSubmit" class="btn btn-lg btn-success" type="submit">Show URI Stats</button></span>
             </div>
         </form>
     </div>
@@ -50,24 +54,25 @@
                 </br>
                 <h1 class="mb-4">Stats of TinyURI services</h1>
                 </br></br>
+                <div id="disconnectAlert" class='alert alert-danger lead'>Disconnected from server. Stats not updating.</div>
             </div>
             <div class="col-xl-12 mx-auto" style="background-color: rgba(255,255,255,0.1)">
-                <p style="font-size: 70pt;color:orange">1.025.485</p>
+                <p id="accessedURI"style="font-size: 70pt;color:orange">1.025.485</p>
                 <p style="font-size: 20pt">Shortened URIs accessed</p>
             </div>
 
             <div class="col-xl-12 mx-auto" style="background-color: rgba(255,255,255,0.2)">
                 <div class="row">
                     <div class="col-xl-4 col-sm-12">
-                        <p style="font-size: 70pt;color:orange">8.437</p>
+                        <p id="shortenedURI" style="font-size: 70pt;color:orange">8.437</p>
                         <p style="font-size: 20pt">Shortened URI</p>
                     </div>
                     <div class="col-xl-4 col-sm-12">
-                        <p style="font-size: 70pt;color:orange">24</p>
+                        <p id="deletedURI" style="font-size: 70pt;color:orange">24</p>
                         <p style="font-size: 20pt">Deleted URI</p>
                     </div>
                     <div class="col-xl-4 col-sm-12">
-                        <p style="font-size: 70pt;color:orange">7.824</p>
+                        <p id="workingURI" style="font-size: 70pt;color:orange">7.824</p>
                         <p style="font-size: 20pt">Working URI</p>
                     </div>
                 </div>
@@ -75,15 +80,15 @@
             <div class="col-xl-12 mx-auto" style="background-color: rgba(255,255,255,0.3)">
                 <div class="row">
                     <div class="col-xl-4 col-sm-12">
-                        <p style="font-size: 70pt;color:orange">12.457</p>
+                        <p id="generatedQR" style="font-size: 70pt;color:orange">12.457</p>
                         <p style="font-size: 20pt">Generated QR</p>
                     </div>
                     <div class="col-xl-4 col-sm-12">
-                        <p style="font-size: 70pt;color:orange">16</p>
+                        <p id="deleteQR" style="font-size: 70pt;color:orange">16</p>
                         <p style="font-size: 20pt">Deleted QR</p>
                     </div>
                     <div class="col-xl-4 col-sm-12">
-                        <p style="font-size: 70pt;color:orange">9.247</p>
+                        <p id="workingQR" style="font-size: 70pt;color:orange">9.247</p>
                         <p style="font-size: 20pt">Working QR</p>
                     </div>
                 </div>
