@@ -69,9 +69,6 @@ project(':common') {
         compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
         // https://mvnrepository.com/artifact/com.github.joschi.jackson/jackson-datatype-threetenbp
         compile group: 'com.github.joschi.jackson', name: 'jackson-datatype-threetenbp', version: '2.6.4'
-        compile 'org.hibernate:hibernate-core:5.3.7.Final'
-        // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
-        compile group: 'com.zaxxer', name: 'HikariCP', version: '3.2.0'
 
         // Required for QR generation
         compile "com.google.zxing:core:3.3.0"
@@ -97,16 +94,27 @@ project(':demo') {
     }
 
     apply plugin: 'org.springframework.boot'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
 
     dependencies {
         compile project(':common')
 
         runtime 'org.hsqldb:hsqldb'
 
+        compile("org.webjars:sockjs-client:1.0.2")
         compile 'org.webjars:bootstrap:3.3.5'
         compile 'org.webjars:jquery:2.1.4'
         // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator
         compile 'org.springframework.boot:spring-boot-starter-actuator'
+        compile("org.springframework.boot:spring-boot-starter-websocket")
+        compile("org.webjars:webjars-locator-core")
+
+        compile("org.webjars:sockjs-client:1.0.2")
+        compile("org.webjars:stomp-websocket:2.3.3")
+        compile 'org.glassfish.tyrus:tyrus-container-grizzly-server:1.14'
+        compile 'org.springframework.boot:spring-boot-starter-web'
 
         // Testing framework
         testCompile 'org.springframework.boot:spring-boot-starter-test'
