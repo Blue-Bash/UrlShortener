@@ -15,6 +15,7 @@ import urlshortener.demo.controller.UriApi;
 import urlshortener.demo.domain.QRItem;
 import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
+import urlshortener.demo.domain.URIUpdate;
 import urlshortener.demo.exception.IncorrectHashPassException;
 import urlshortener.demo.exception.InvalidRequestParametersException;
 import urlshortener.demo.exception.UnknownEntityException;
@@ -62,22 +63,36 @@ public class UriApiController implements UriApi {
         this.qrService = qrService;
     }
 
-    public ResponseEntity<URIItem> changeURI(@ApiParam(value = "Optional description in *Markdown*" ,required=true )  @Valid @RequestBody URICreate body,@ApiParam(value = "",required=true) @PathVariable("name") String name) {
+    public ResponseEntity<URIItem> changeUri(@ApiParam(value = "update info", required=true )  @Valid @RequestBody URIUpdate body,
+                                                @ApiParam(value = "actual name", required=true) @PathVariable("name") String name) {
         String accept = request.getHeader("Accept");
+
+        URIItem actualUri = uriService.get(name);
+        URICreate uri = new URICreate().uri(actualUri.getRedirection());
+
+        if(!actualUri.checkHashPass(body.getHashpass())) {
+           throw new IncorrectHashPassException(HttpStatus.BAD_REQUEST.value(), "Given hashpass doesn't match " +  actualUri.getId() + " hashpass.");
+        }
+
+        return createNewUri(uri,body.getNewName());
+
+    }
+
+    public ResponseEntity<URIItem> createNewUri(URICreate uri, String name) {
         CheckAlive c = new CheckAlive();
 
         ParameterUtils.checkParameter(name);
-        ParameterUtils.checkParameter(body.getUri());
+        ParameterUtils.checkParameter(uri.getUri());
 
-        URIItem item = (URIItem) new URIItem().id(name).redirection(body.getUri()).hashpass(StringUtils.randomHash());
+        URIItem item = (URIItem) new URIItem().id(name).redirection(uri.getUri()).hashpass(StringUtils.randomHash());
 
         try {
             if (Integer.valueOf(c.makeRequest(item.getRedirection())) == 200) {
                 uriService.add(item);
                 // Save default QR to QRRepository if it doesn't already exist
-                if(!qrService.contains(body.getUri())){
+                if(!qrService.contains(uri.getUri())){
                     QRItem qrItem = new QRItem();
-                    qrItem.setUri(body.getUri());
+                    qrItem.setUri(uri.getUri());
                     qrItem.convertBase64(QR_SIZE, QR_SIZE);
 
                     this.qrService.add(qrItem);
@@ -93,7 +108,13 @@ public class UriApiController implements UriApi {
 
     public ResponseEntity<URIItem> createURI(@ApiParam(value = "URI" ,required=true )  @Valid @RequestBody URICreate body) {
         String accept = request.getHeader("Accept");
-        return changeURI(body, Long.toHexString(uriService.getNextID()));
+        return createNewUri(body, Long.toHexString(uriService.getNextID()));
+    }
+
+    public ResponseEntity<URIItem> createURIwithName(@ApiParam(value = "URI" ,required=true )  @Valid @RequestBody URICreate body,
+                                              @ApiParam(value = "actual name", required=true) @PathVariable("name") String name) {
+        String accept = request.getHeader("Accept");
+        return createNewUri(body, name);
     }
 
     public ResponseEntity<Void> deleteURI(@ApiParam(value = "",required=true) @PathVariable("id") String id, @RequestHeader("URIHashPass") String hashpass) {

@@ -5,7 +5,7 @@ $(document).ready(
             event.preventDefault();
             var name = $("#customName").val();
             $.ajax({
-              type: "PUT",
+              type: "POST",
               url: "/uri/" + name,
               contentType: "application/json",
               data: JSON.stringify({"uri": $("#urlInput").val()}), // access in body
