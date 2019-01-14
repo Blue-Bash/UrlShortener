@@ -7,20 +7,26 @@ import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.AbstractRepository;
 import urlshortener.demo.repository.URIRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class URIRepositoryImpl extends AbstractRepository<String, URIItem> implements URIRepository {
+    private Map<String, URIStats> stats = new HashMap<>();
 
     @Override
-    public List<URIItem> checkURI() {
-        return new ArrayList<>();
+    public Map<String, URIItem> getAllURIS() {
+        return super.getAllUris();
     }
 
-    private Map<String, URIStats> stats = new HashMap<>();
+    @Override
+    public void removeFecha(String id) {
+        super.removeFecha(id);
+    }
+
+    @Override
+    public void addFecha(String id, Date fecha) {
+        super.addFecha(id, fecha);
+    }
 
     @Override
     public long getRedirectionAmount(String hash, long timeFromNow) {
