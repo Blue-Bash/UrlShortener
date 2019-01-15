@@ -10,6 +10,7 @@ import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import urlshortener.demo.domain.URIStats;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2018-11-23T14:33:33.583Z[GMT]")
 
@@ -23,5 +24,15 @@ public interface StatsApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<Stats> getStats();
+
+    @ApiOperation(value = "Returns stats from server for a certain URI", nickname = "getUriStats", notes = "Get uri stats info ", response = URIStats.class, tags={ "F1 - The app will return system stats and info. (WS)", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "URIStats from server", response = URIStats.class) })
+    @RequestMapping(value = "/stats/{id}",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<URIStats> getUriStats(String id);
+
+
 
 }

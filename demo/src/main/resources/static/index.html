@@ -23,6 +23,8 @@
 
     <script type="text/javascript" src="vendor/jquery3.3.1/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.js"></script>
+      <script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
 
     <script type="text/javascript" src="js/app.js"></script>
 
@@ -63,6 +65,39 @@
                 <input id="customName" type="text" class="center-block form-control input-lg"
                        title="Enter custom name" placeholder="Custom name">
               </div>
+                <div class="input-group input-group-lg col-lg-12">
+                    <span id="qr-now"></span>&nbsp;QRs now<br/>
+                </div>
+                <div class="input-group input-group-lg col-lg-12">
+                    <span id="qr-created"></span>&nbsp;QRs created <br/>
+                </div>
+                <div class="input-group input-group-lg col-lg-12">
+                    <span id="qr-removed"></span>&nbsp;QRs removed <br/>
+                </div>
+                <div class="input-group input-group-lg col-lg-12">
+                    <span id="qr-accessed"></span>&nbsp;QRs accessed <br/>
+                </div>
+                <div class="input-group input-group-lg col-lg-12">
+                    <span id="uris-now"></span>&nbsp;URIs now<br/>
+                </div>
+                <div class="input-group input-group-lg col-lg-12">
+                    <span id="uris-created"></span>&nbsp;URIs created <br/>
+                </div>
+                <div class="input-group input-group-lg col-lg-12">
+                    <span id="uris-removed"></span>&nbsp;URIs removed <br/>
+                </div>
+                <div class="input-group input-group-lg col-lg-12">
+                    <span id="uris-accessed"></span>&nbsp;URIs accessed <br/>
+                </div>
+                <div class="input-group input-group-lg col-lg-12">
+                    <span id="cpu-usage"></span>% CPU usage <br />
+                </div>
+                <div class="input-group input-group-lg col-lg-12">
+                    <span id="system-cpu-usage"></span>% system CPU usage <br/>
+                </div>
+                <div class="input-group input-group-lg col-lg-12">
+                    <span id="system-memory-usage"></span>&nbsp;MB of memory used.<br/>
+                </div>
             </form>
           </div>
           <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
