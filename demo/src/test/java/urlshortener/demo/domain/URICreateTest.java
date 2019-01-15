@@ -33,16 +33,16 @@ public class URICreateTest {
     public void testURICreateCheckHashcode(){
         URICreate base = new URICreate().uri("abc");
 
-        assertEquals(96385, base.hashCode());
+        assertEquals(2987935, base.hashCode());
     }
 
     @Test
     public void testURICreateCheckToString(){
         URICreate base = new URICreate().uri("abc");
-        assertEquals("class URICreate {\n    uri: abc\n}", base.toString());
+        assertEquals("class URICreate {\n    uri: abc\n    name: \n}", base.toString());
 
         base = new URICreate().uri(null);
-        assertEquals("class URICreate {\n    uri: null\n}", base.toString());
+        assertEquals("class URICreate {\n    uri: null\n    name: \n}", base.toString());
 
     }
 

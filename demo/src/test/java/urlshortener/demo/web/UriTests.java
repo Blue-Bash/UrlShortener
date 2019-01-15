@@ -13,6 +13,7 @@ import urlshortener.demo.controller.advice.BaseControllerAdvice;
 import urlshortener.demo.controller.impl.UriApiController;
 import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
+import urlshortener.demo.domain.URIUpdate;
 import urlshortener.demo.exception.CannotAddEntityException;
 import urlshortener.demo.repository.QRRepository;
 import urlshortener.demo.repository.URIRepository;
@@ -66,11 +67,10 @@ public class UriTests {
         //Test 1: Create OK
         doNothing().when(service).add(isA(URIItem.class));
 
-        URICreate uriCreate = someCorrectURICreate();
-        String id = "randomID";
-        mockMvc.perform(put("/uri/{id}", id).contentType(MediaType.APPLICATION_JSON).content(mapObject(uriCreate))).andDo(print())
+        URICreate uriCreate = someCorrectURICreate().name("randomID");
+        mockMvc.perform(put("/uri").contentType(MediaType.APPLICATION_JSON).content(mapObject(uriCreate))).andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(id))
+                .andExpect(jsonPath("$.id").value("randomID"))
                 .andExpect(jsonPath("$.redirection").value(uriCreate.getUri()));
     }
 
@@ -111,7 +111,7 @@ public class UriTests {
         doNothing().when(service).add(isA(URIItem.class));
 
         URICreate uriCreate = someCorrectURICreate();
-        mockMvc.perform(put("/uri").contentType(MediaType.APPLICATION_JSON).content(mapObject(uriCreate))).andDo(print())
+        mockMvc.perform(post("/uri").contentType(MediaType.APPLICATION_JSON).content(mapObject(uriCreate))).andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.redirection").value(uriCreate.getUri()));
     }
@@ -123,11 +123,11 @@ public class UriTests {
         doNothing().when(service).add(isA(URIItem.class));
 
         URICreate uriCreate = someEmptyURICreate();
-        mockMvc.perform(put("/uri").contentType(MediaType.APPLICATION_JSON).content(mapObject(uriCreate))).andDo(print())
+        mockMvc.perform(post("/uri").contentType(MediaType.APPLICATION_JSON).content(mapObject(uriCreate))).andDo(print())
                 .andExpect(status().isBadRequest());
 
         uriCreate = someNullURICreate();
-        mockMvc.perform(put("/uri").contentType(MediaType.APPLICATION_JSON).content(mapObject(uriCreate))).andDo(print())
+        mockMvc.perform(post("/uri").contentType(MediaType.APPLICATION_JSON).content(mapObject(uriCreate))).andDo(print())
                 .andExpect(status().isBadRequest());
     }
 
@@ -138,8 +138,23 @@ public class UriTests {
         doThrow(CannotAddEntityException.class).when(service).add(isA(URIItem.class));
 
         URICreate uriCreate = someCorrectURICreate();
-        mockMvc.perform(put("/uri").contentType(MediaType.APPLICATION_JSON).content(mapObject(uriCreate))).andDo(print())
+        mockMvc.perform(post("/uri").contentType(MediaType.APPLICATION_JSON).content(mapObject(uriCreate))).andDo(print())
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void newNameURI() throws Exception {
+        URIItem uriItem = someURI();
+        String id = uriItem.getId();
+
+        doNothing().when(service).add(uriItem);
+        doReturn(uriItem).when(service).get(uriItem.getId());
+
+        String newName = "newName";
+        URIUpdate uriUpdate = (URIUpdate) new URIUpdate().newName("newName").hashpass(uriItem.getHashpass());
+
+        mockMvc.perform(put("/uri/{id}", id).contentType(MediaType.APPLICATION_JSON).content(mapObject(uriUpdate))).andDo(print())
+                .andExpect(status().isCreated());
     }
 
     /*
@@ -249,5 +264,4 @@ public class UriTests {
         mockMvc.perform(get("/uri/{id}", item.getId())).andDo(print())
                 .andExpect(status().isTooManyRequests());
     }
-
 }

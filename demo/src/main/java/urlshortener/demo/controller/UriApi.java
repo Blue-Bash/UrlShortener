@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
+import urlshortener.demo.domain.URIUpdate;
 
 import javax.validation.Valid;
 
@@ -21,7 +22,8 @@ public interface UriApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<URIItem> changeURI(@ApiParam(value = "Optional description in *Markdown*" ,required=true )  @Valid @RequestBody URICreate body,@ApiParam(value = "",required=true) @PathVariable("name") String name);
+    public ResponseEntity<URIItem> changeUri(@ApiParam(value = "update info", required=true )  @Valid @RequestBody URIUpdate body,
+                                                @ApiParam(value = "actual name", required=true) @PathVariable("name") String name);
 
 
     @ApiOperation(value = "Creates a new redirection", nickname = "createURI", notes = "Create a new URI redirection ", response = URIItem.class, tags={ "F0 - The app will short, storage and get URI&#39;s", })
@@ -32,8 +34,19 @@ public interface UriApi {
     @RequestMapping(value = "/uri",
         produces = { "application/json" }, 
         consumes = { "application/json" },
-        method = RequestMethod.PUT)
+        method = RequestMethod.POST)
     ResponseEntity<URIItem> createURI(@ApiParam(value = "URI" ,required=true )  @Valid @RequestBody URICreate body);
+
+    @ApiOperation(value = "Creates a new redirection with a custom name", nickname = "createURIWithName", notes = "Create a new URI redirection with a custom name", response = URIItem.class, tags={ "F0 - The app will short, storage and get URI&#39;s", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "The URI redirection has been successfully created", response = URIItem.class),
+            @ApiResponse(code = 400, message = "The URI was not reachable", response = URIItem.class)
+    })
+    @RequestMapping(value = "/uri",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.PUT)
+    ResponseEntity<URIItem> createURIwithName(@ApiParam(value = "URI" ,required=true )  @Valid @RequestBody URICreate body);
 
 
     @ApiOperation(value = "Deletes an existing URI and its content.", nickname = "deleteURI", notes = "Remove a URI redirection ", tags={ "F0 - The app will short, storage and get URI&#39;s", })

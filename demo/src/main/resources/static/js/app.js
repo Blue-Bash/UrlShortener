@@ -49,11 +49,13 @@ $(document).ready(
           function (event) {
             event.preventDefault();
             var name = $("#customName").val();
+            var type = "";
+            if ($("#customName").val() === "") {type = "POST"} else {type = "PUT"}
             $.ajax({
-              type: "PUT",
-              url: "/uri/" + name,
+              type: type,
+              url: "/uri",
               contentType: "application/json",
-              data: JSON.stringify({"uri": $("#urlInput").val()}), // access in body
+              data: JSON.stringify({"uri": $("#urlInput").val(), "name" : name}), // access in body
               success: function (msg) {
                 $("#shortenerResult").html(
                     "<div class='alert alert-success lead'><a target='_blank' href='"
