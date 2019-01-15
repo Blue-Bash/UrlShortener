@@ -19,6 +19,7 @@ import urlshortener.demo.exception.IncorrectHashPassException;
 import urlshortener.demo.exception.InvalidRequestParametersException;
 import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.QRRepository;
+import urlshortener.demo.repository.StatsRepository;
 import urlshortener.demo.repository.URIRepository;
 import urlshortener.demo.utils.CheckAlive;
 import urlshortener.demo.utils.ParameterUtils;
@@ -53,14 +54,17 @@ public class UriApiController implements UriApi {
     private final HttpServletRequest request;
 
     private final URIRepository uriService;
-    
+
+    private final StatsRepository statsRepository;
+
     private final QRRepository qrService;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public UriApiController(ObjectMapper objectMapper, HttpServletRequest request, URIRepository uriService, QRRepository qrService) {
+    public UriApiController(ObjectMapper objectMapper, HttpServletRequest request, URIRepository uriService, StatsRepository statsRepository, QRRepository qrService) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.uriService = uriService;
+        this.statsRepository = statsRepository;
         this.qrService = qrService;
     }
 
@@ -160,6 +164,8 @@ public class UriApiController implements UriApi {
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
+
+        statsRepository.incrementAccessStats(id);
 
         return new ResponseEntity<Void>(responseHeaders, HttpStatus.TEMPORARY_REDIRECT);
     }

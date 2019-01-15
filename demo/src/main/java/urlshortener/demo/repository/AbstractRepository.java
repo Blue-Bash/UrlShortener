@@ -81,4 +81,8 @@ public class AbstractRepository<K, V extends BaseEntity<K>> implements IReposito
         return uris.containsKey(key);
     }
 
+    @Override
+    public int getCount() {
+        return uris.size();
+    }
 }

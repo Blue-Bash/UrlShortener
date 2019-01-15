@@ -58,7 +58,7 @@ public class QrTests {
 
         when(uriRepository.get("googleHash")).thenReturn(uriItem);
         when(uriRepository.contains("googleHash")).thenReturn(true);
-        when(qrRepository.get(uriItem.getId())).thenReturn(qrItem);
+        when(qrRepository.get(uriItem.getRedirection())).thenReturn(qrItem);
 
          mockMvc.perform(get("/qr/{id}/", "googleHash"))
                 .andDo(print())
