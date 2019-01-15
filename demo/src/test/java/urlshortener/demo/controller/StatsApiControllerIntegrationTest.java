@@ -43,13 +43,13 @@ public class StatsApiControllerIntegrationTest {
         Stats stats = responseEntity.getBody();
         assertNotNull(stats);
         assertEquals(BigDecimal.valueOf(getCustomMetric("qr.accessed")), stats.getQrAccessed());
-        assertEquals(BigDecimal.valueOf(getCustomMetric("qr.created")), stats.getQrAccessed());
-        assertEquals(BigDecimal.valueOf(getCustomMetric("qr.now")), stats.getQrAccessed());
-        assertEquals(BigDecimal.valueOf(getCustomMetric("qr.removed")), stats.getQrAccessed());
-        assertEquals(BigDecimal.valueOf(getCustomMetric("uri.accessed")), stats.getQrAccessed());
-        assertEquals(BigDecimal.valueOf(getCustomMetric("uri.created")), stats.getQrAccessed());
-        assertEquals(BigDecimal.valueOf(getCustomMetric("uri.now")), stats.getQrAccessed());
-        assertEquals(BigDecimal.valueOf(getCustomMetric("uri.removed")), stats.getQrAccessed());
+        assertEquals(BigDecimal.valueOf(getCustomMetric("qr.created")), stats.getQrCreated());
+        assertEquals(BigDecimal.valueOf(getCustomMetric("qr.now")), stats.getQrNow());
+        assertEquals(BigDecimal.valueOf(getCustomMetric("qr.removed")), stats.getQrRemoved());
+        assertEquals(BigDecimal.valueOf(getCustomMetric("uri.accessed")), stats.getUrisAccessed());
+        assertEquals(BigDecimal.valueOf(getCustomMetric("uri.created")), stats.getUrisCreated());
+        assertEquals(BigDecimal.valueOf(getCustomMetric("uri.now")), stats.getUrisNow());
+        assertEquals(BigDecimal.valueOf(getCustomMetric("uri.removed")), stats.getUrisRemoved());
     }
 
     @Test

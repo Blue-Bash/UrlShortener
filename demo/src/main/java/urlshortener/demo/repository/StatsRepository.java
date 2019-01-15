@@ -9,4 +9,6 @@ public interface StatsRepository {
 
     URIStats getUriStats(String keyID);
 
+    void incrementAccessStats(String id);
+
 }

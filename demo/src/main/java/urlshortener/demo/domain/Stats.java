@@ -14,37 +14,37 @@ import java.util.Objects;
 
 public class Stats   {
   @JsonProperty("cpu.usage")
-  private BigDecimal cpuUsage = null;
+  private BigDecimal cpuUsage = BigDecimal.ZERO;
 
   @JsonProperty("system.cpu.usage")
-  private BigDecimal serverUsage = null;
+  private BigDecimal serverUsage = BigDecimal.ZERO;
 
   @JsonProperty("system.memory.usage")
-  private Integer memoryUsage = null;
+  private Integer memoryUsage = 0;
 
   @JsonProperty("uris.created")
-  private BigDecimal urisCreated = null;
+  private BigDecimal urisCreated = BigDecimal.ZERO;
 
   @JsonProperty("uris.accessed")
-  private BigDecimal urisAccessed = null;
+  private BigDecimal urisAccessed = BigDecimal.ZERO;
 
   @JsonProperty("uris.removed")
-  private BigDecimal urisRemoved = null;
+  private BigDecimal urisRemoved = BigDecimal.ZERO;
 
   @JsonProperty("uris.now")
-  private BigDecimal urisNow = null;
+  private BigDecimal urisNow = BigDecimal.ZERO;
 
   @JsonProperty("qr.created")
-  private BigDecimal qrCreated = null;
+  private BigDecimal qrCreated = BigDecimal.ZERO;
 
   @JsonProperty("qr.removed")
-  private BigDecimal qrRemoved = null;
+  private BigDecimal qrRemoved = BigDecimal.ZERO;
 
   @JsonProperty("qr.now")
-  private BigDecimal qrNow = null;
+  private BigDecimal qrNow = BigDecimal.ZERO;
 
   @JsonProperty("qr.accessed")
-  private BigDecimal qrAccessed = null;
+  private BigDecimal qrAccessed = BigDecimal.ZERO;
 
 
   public void setCpuUsage(BigDecimal cpuUsage) {

@@ -1,11 +1,13 @@
 package urlshortener.demo.controller.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import urlshortener.demo.controller.StatsApi;
 import urlshortener.demo.domain.Stats;
 import urlshortener.demo.domain.URIStats;
@@ -38,7 +40,7 @@ public class StatsApiController implements StatsApi {
         return new ResponseEntity<Stats>(statsRepository.getStats(), HttpStatus.OK);
     }
 
-    public ResponseEntity<URIStats> getUriStats(String keyID) {
+    public ResponseEntity<URIStats> getUriStats(@ApiParam(value = "",required=true) @PathVariable("id") String keyID) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<URIStats>(statsRepository.getUriStats(keyID), HttpStatus.OK);
     }

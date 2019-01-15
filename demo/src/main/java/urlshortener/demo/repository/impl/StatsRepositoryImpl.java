@@ -54,6 +54,12 @@ public class StatsRepositoryImpl implements StatsRepository {
         return stats;
     }
 
+    @Override
+    public void incrementAccessStats(String id) {
+        metrics.counter("uri." + id + ".accessed").increment();
+        metrics.counter("uri.accessed").increment();
+    }
+
     private double getMetric(String s) {
         return metricsEndpoint.metric(s, Collections.emptyList()).getMeasurements().stream().mapToDouble(MetricsEndpoint.Sample::getValue).average().orElse(0.0);
     }
