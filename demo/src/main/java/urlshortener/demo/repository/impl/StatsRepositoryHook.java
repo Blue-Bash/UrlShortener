@@ -32,13 +32,13 @@ public class StatsRepositoryHook<K, V extends BaseEntity<K>> implements IReposit
     @Override
     public void remove(K key) {
         if(repo != null) repo.remove(key);
-        metrics.counter(this.key + ".deleted").increment();
+        metrics.counter(this.key + ".removed").increment();
         metrics.counter(this.key + ".now").increment(-1.0);
     }
 
     @Override
     public void removeAll() {
-        metrics.counter(key + ".deleted").increment(getCount());
+        metrics.counter(key + ".removed").increment(getCount());
         metrics.counter(key + ".now").increment(getCount());
         if(repo != null) repo.removeAll();
     }
