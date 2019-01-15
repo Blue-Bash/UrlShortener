@@ -3,10 +3,12 @@ package urlshortener.demo.repository.impl;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.metrics.MetricsEndpoint;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import urlshortener.demo.domain.Stats;
 import urlshortener.demo.domain.URIItem;
 import urlshortener.demo.domain.URIStats;
+import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.StatsRepository;
 import urlshortener.demo.repository.URIRepository;
 
@@ -48,6 +50,7 @@ public class StatsRepositoryImpl implements StatsRepository {
 
     public URIStats getUriStats(String keyID) {
         URIItem uri = repository.get(keyID);
+        if(uri == null) throw new UnknownEntityException(HttpStatus.NOT_FOUND.value(), "Cannot find stats for an unknown URI.");
         URIStats stats = new URIStats();
 
         stats.setUriAccesses(BigDecimal.valueOf(getCustomMetric("uri."+keyID+".accessed")));
