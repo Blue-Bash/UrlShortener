@@ -2,13 +2,13 @@ package urlshortener.demo.utils;
 
 public class StringChecker {
 
-    private StringChecker() {
-        throw new IllegalStateException("Utility class");
-    }
-
     public static int checkString2Int(String string){
-        
+
         if (string == null){
+            return 500;
+        }
+
+        if (string == ""){
             return 500;
         }
 
@@ -25,4 +25,7 @@ public class StringChecker {
         return num;
     }
 
+    private StringChecker() {
+        //Let's hide the implicit public constructor as this class should never be instantiated.
+    }
 }

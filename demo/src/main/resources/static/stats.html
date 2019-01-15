@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>TinyURI Stats</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="css/landing-page.css" rel="stylesheet">
+
+    <script type="text/javascript" src="vendor/jquery3.3.1/jquery-3.3.1.min.js"></script>
+    <script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
+    <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.js"></script>
+
+    <script type="text/javascript" src="js/stats.js"></script>
+
+</head>
+<body>
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+    enabled. Please enable Javascript and reload this page!</h2></noscript>
+<!-- Navigation -->
+<nav class="navbar navbar-light bg-light fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">TinyURI</a>
+        <form id="uriStats">
+            <div class="input-group input-group-lg col-sm-12">
+                <input id="urlInput" type="text" class="center-block form-control input-lg"
+                       title="Enter URI code" placeholder="https://tinyuri.xyz/uri/#####">
+                <span class="input-group-btn"><button
+                        id="uriStatsSubmit" class="btn btn-lg btn-success" type="submit">Show URI Stats</button></span>
+            </div>
+        </form>
+    </div>
+</nav>
+
+<section class="stats text-white text-center">
+    <div class="overlay"></div>
+    <div>
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+                </br>
+                <h1 class="mb-4">Stats of TinyURI services</h1>
+                </br></br>
+                <div id="disconnectAlert" class='alert alert-danger lead'>Disconnected from server. Stats not updating.</div>
+            </div>
+            <div class="col-xl-12 mx-auto" style="background-color: rgba(255,255,255,0.1)">
+                <div class="row">
+                    <div class="col-xl-6 col-sm-12">
+                        <p id="uris-accessed" style="font-size: 70pt;color:orange">12.457</p>
+                        <p style="font-size: 20pt">Accessed URI</p>
+                    </div>
+                    <div class="col-xl-6 col-sm-12">
+                        <p id="qr-accessed" style="font-size: 70pt;color:orange">16</p>
+                        <p style="font-size: 20pt">Accessed QR</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12 mx-auto" style="background-color: rgba(255,255,255,0.2)">
+                <div class="row">
+                    <div class="col-xl-4 col-sm-12">
+                        <p id="uris-created" style="font-size: 70pt;color:orange">8.437</p>
+                        <p style="font-size: 20pt">Shortened URI</p>
+                    </div>
+                    <div class="col-xl-4 col-sm-12">
+                        <p id="uris-removed" style="font-size: 70pt;color:orange">24</p>
+                        <p style="font-size: 20pt">Deleted URI</p>
+                    </div>
+                    <div class="col-xl-4 col-sm-12">
+                        <p id="uris-now" style="font-size: 70pt;color:orange">7.824</p>
+                        <p style="font-size: 20pt">Working URI</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12 mx-auto" style="background-color: rgba(255,255,255,0.3)">
+                <div class="row">
+                    <div class="col-xl-4 col-sm-12">
+                        <p id="qr-created" style="font-size: 70pt;color:orange">12.457</p>
+                        <p style="font-size: 20pt">Generated QR</p>
+                    </div>
+                    <div class="col-xl-4 col-sm-12">
+                        <p id="qr-removed" style="font-size: 70pt;color:orange">16</p>
+                        <p style="font-size: 20pt">Deleted QR</p>
+                    </div>
+                    <div class="col-xl-4 col-sm-12">
+                        <p id="qr-now" style="font-size: 70pt;color:orange">9.247</p>
+                        <p style="font-size: 20pt">Working QR</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12 mx-auto" style="background-color: rgba(255,255,255,0.4)">
+                <div class="row">
+                    <div class="col-xl-4 col-sm-12">
+                        <span id="cpu-usage" style="font-size: 70pt;color:orange">12</span><span style="font-size: 35pt;color:orange">%</span><br />
+                        <span style="font-size: 20pt">CPU Usage</span>
+                    </div>
+                    <div class="col-xl-4 col-sm-12">
+                        <span id="system-cpu-usage" style="font-size: 70pt;color:orange">16</span><span style="font-size: 35pt;color:orange">%</span><br />
+                        <span style="font-size: 20pt">System CPU Usage</span>
+                    </div>
+                    <div class="col-xl-4 col-sm-12">
+                        <span id="system-memory-usage" style="font-size: 70pt;color:orange">9.946</span><span style="font-size: 35pt;color:orange">MB</span><br />
+                        <span style="font-size: 20pt">Working QR</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+                <p class="text-muted small mb-4 mb-lg-0">Created by Blue-Bash at Unizar.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

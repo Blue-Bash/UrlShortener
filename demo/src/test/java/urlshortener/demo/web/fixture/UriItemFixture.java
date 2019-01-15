@@ -9,6 +9,10 @@ public class UriItemFixture {
         return (URIItem) new URIItem().id("abc").redirection("https://google.es").hashpass("abc");
     }
 
+    public static URIItem someURIInvalidURI(){
+        return (URIItem) new URIItem().id("abc").redirection("2invalid0http://google.es").hashpass("abc");
+    }
+
     public static URICreate someCorrectURICreate(){
         return new URICreate().uri("https://www.google.es");
     }

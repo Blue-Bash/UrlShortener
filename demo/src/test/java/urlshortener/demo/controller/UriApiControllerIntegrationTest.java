@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
+import urlshortener.demo.domain.URIUpdate;
 import urlshortener.demo.exception.IncorrectHashPassException;
 import urlshortener.demo.exception.InvalidRequestParametersException;
 import urlshortener.demo.exception.UnknownEntityException;
@@ -54,7 +55,7 @@ public class UriApiControllerIntegrationTest {
     public void createWithNameOK(){
         //Test 1: Create OK
         String uriName = "testURI";
-        ResponseEntity<URIItem> response = api.changeURI(correctURI, uriName);
+        ResponseEntity<URIItem> response = api.createURIwithName(correctURI.name(uriName));
         URIItem item = response.getBody();
 
         assertNotNull(item);
@@ -68,12 +69,12 @@ public class UriApiControllerIntegrationTest {
         String uriName = "testURI";
 
         try {
-            api.changeURI(invalidURI, uriName);
+            api.createURIwithName(invalidURI.name(uriName));
             fail();
         }catch (InvalidRequestParametersException ignored){ }
 
         try {
-            api.changeURI(emptyURI, uriName);
+            api.createURIwithName(emptyURI.name(uriName));
             fail();
         }catch (InvalidRequestParametersException ignored){ }
     }
@@ -83,12 +84,12 @@ public class UriApiControllerIntegrationTest {
         //Test 3: Create with invalid hash
 
         try {
-            api.changeURI(correctURI, null);
+            api.createURIwithName(correctURI.name(null));
             fail();
         }catch (InvalidRequestParametersException ignored){ }
 
         try {
-            api.changeURI(correctURI, "");
+            api.createURIwithName(correctURI.name(""));
             fail();
         }catch (InvalidRequestParametersException ignored){ }
     }
@@ -96,6 +97,13 @@ public class UriApiControllerIntegrationTest {
     /*
      * Test PUT /uri
      */
+
+
+
+
+
+
+
     @Test
     public void createOK(){
         //Test 1: Create OK
@@ -129,6 +137,15 @@ public class UriApiControllerIntegrationTest {
         ResponseEntity<Void> responseEntity = api.deleteURI(createdURIItem.getId(), createdURIItem.getHashpass());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertFalse(repository.contains(createdURIItem.getId()));
+    }
+
+    @Test
+    public void getURITestError() throws Exception {
+        String id = "id_example";
+        try {
+            api.getURI(id);
+            fail();
+        }catch(UnknownEntityException ignored){ }
     }
 
     @Test
@@ -183,20 +200,6 @@ public class UriApiControllerIntegrationTest {
         assertTrue(repository.contains(createdURIItem.getId()));
     }
 
-
-
-    /*
-     * Test GET /uri
-     */
-    @Test
-    public void getURITestError() {
-        String id = "id_example";
-        try {
-            api.getURI(id);
-            fail();
-        }catch(UnknownEntityException ignored){ }
-    }
-
     @Test
     public void getURITestOK() {
         String id = "id_example";
@@ -204,6 +207,30 @@ public class UriApiControllerIntegrationTest {
 
         ResponseEntity<Void> responseEntity = api.getURI(id);
         assertEquals(HttpStatus.TEMPORARY_REDIRECT, responseEntity.getStatusCode());
+    }
+
+    @Test
+    public void getURITestTooManyRequests() {
+        final long MAX_REDIRECTIONS = 100;
+        String id = "id_example";
+        repository.add((URIItem) new URIItem().id(id).redirection("http://google.es").hashpass("abc"));
+        for(int i = 0; i < MAX_REDIRECTIONS; i++){
+            repository.get(id);
+        }
+
+        ResponseEntity<Void> responseEntity = api.getURI(id);
+        assertEquals(HttpStatus.TOO_MANY_REQUESTS, responseEntity.getStatusCode());
+    }
+
+    @Test
+    public void getURITestInvalidURLFormat() {
+        String id = "id_example";
+        repository.add((URIItem) new URIItem().id(id).redirection("2invalid0http:/google.es").hashpass("abc"));
+
+        try {
+            api.getURI(id);
+            fail();
+        }catch(InvalidRequestParametersException ignored){}
     }
 
 }

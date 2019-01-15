@@ -17,6 +17,9 @@ public class URICreate   {
   @JsonProperty("uri")
   private String uri = null;
 
+  @JsonProperty("name")
+  private String name = "";
+
   public URICreate uri(String uri) {
     this.uri = uri;
     return this;
@@ -28,14 +31,31 @@ public class URICreate   {
   **/
   @ApiModelProperty(example = "https://google.es/", required = true, value = "")
   @NotNull
-
-
   public String getUri() {
     return uri;
   }
 
   public void setUri(String uri) {
     this.uri = uri;
+  }
+
+  /**
+   * Get uri
+   * @return uri
+   **/
+  @ApiModelProperty(example = "https://google.es/", required = true, value = "")
+  @NotNull
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public URICreate name(String name) {
+    this.name = name;
+    return this;
   }
 
 
@@ -48,20 +68,21 @@ public class URICreate   {
       return false;
     }
     URICreate urICreate = (URICreate) o;
-    return Objects.equals(this.uri, urICreate.uri);
+    return Objects.equals(this.uri, urICreate.uri) && Objects.equals(this.name, urICreate.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(uri);
+    return Objects.hash(uri,name);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class URICreate {\n");
-    
+
     sb.append("    uri: ").append(toIndentedString(uri)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");
     return sb.toString();
   }
