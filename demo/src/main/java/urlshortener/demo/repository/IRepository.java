@@ -15,4 +15,6 @@ public interface IRepository<K, V extends BaseEntity<K>> {
     long getNextID();
 
     boolean contains(K key);
+
+    int getCount();
 }

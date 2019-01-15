@@ -15,8 +15,9 @@ import urlshortener.demo.domain.URICreate;
 import urlshortener.demo.domain.URIItem;
 import urlshortener.demo.domain.URIUpdate;
 import urlshortener.demo.exception.CannotAddEntityException;
-import urlshortener.demo.repository.URIRepository;
 import urlshortener.demo.repository.QRRepository;
+import urlshortener.demo.repository.URIRepository;
+import urlshortener.demo.repository.impl.StatsRepositoryImpl;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -44,6 +45,9 @@ public class UriTests {
 
     @Mock
     private QRRepository qrService;
+
+    @Mock
+    private StatsRepositoryImpl statsRepository;
 
     @InjectMocks
     private UriApiController uriApiController;
@@ -230,6 +234,7 @@ public class UriTests {
     public void getUriWorks() throws Exception {
         URIItem item = someURI();
         when(service.get("abc")).thenReturn(someURI());
+        doNothing().when(statsRepository).incrementAccessStats(anyString());
 
         mockMvc.perform(get("/uri/{id}", item.getId())).andDo(print())
                 .andExpect(status().isTemporaryRedirect())

@@ -20,6 +20,7 @@ import urlshortener.demo.exception.IncorrectHashPassException;
 import urlshortener.demo.exception.InvalidRequestParametersException;
 import urlshortener.demo.exception.UnknownEntityException;
 import urlshortener.demo.repository.QRRepository;
+import urlshortener.demo.repository.StatsRepository;
 import urlshortener.demo.repository.URIRepository;
 import urlshortener.demo.utils.CheckAlive;
 import urlshortener.demo.utils.ParameterUtils;
@@ -30,6 +31,8 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
+import java.util.Map;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2018-11-21T05:15:43.072Z[GMT]")
 
@@ -52,14 +55,17 @@ public class UriApiController implements UriApi {
     private final HttpServletRequest request;
 
     private final URIRepository uriService;
-    
+
+    private final StatsRepository statsRepository;
+
     private final QRRepository qrService;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public UriApiController(ObjectMapper objectMapper, HttpServletRequest request, URIRepository uriService, QRRepository qrService) {
+    public UriApiController(ObjectMapper objectMapper, HttpServletRequest request, URIRepository uriService, StatsRepository statsRepository, QRRepository qrService) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.uriService = uriService;
+        this.statsRepository = statsRepository;
         this.qrService = qrService;
     }
 
@@ -134,7 +140,7 @@ public class UriApiController implements UriApi {
         String accept = request.getHeader("Accept");
         CheckAlive c = new CheckAlive();
         URI location = null;
-
+        Map<String, Date> fechas = uriService.getAllFechas();
 
         String redirection;
         URIItem item = uriService.get(id);
@@ -149,11 +155,21 @@ public class UriApiController implements UriApi {
                 //OK
                 //Para esa URI, se registra la fecha actual como útima fecha en la que estuvo viva
                 location = new URI(redirection);
+                uriService.removeFecha(item.getId());
+                uriService.addFecha(item.getId(), new Date());
             }
             else {
                 //Cualquier otra cosa aparte de un código 200 significará que la URI está muerta
                 //Se obtiene la última vez que la URI estuvo viva
                 //  -Si la diferencia entre la fecha actual y la fecha recuperada es >= K, entonces la URI se borra
+                long actual = System.currentTimeMillis();
+                long fechaUri = fechas.get(item.getId()).getTime();
+                long diff = actual - fechaUri;
+                long days = diff / (604800000);
+                if (days >= 7.0){
+                    uriService.remove(item.getId());
+                }
+
                 return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
             }
 
@@ -168,6 +184,8 @@ public class UriApiController implements UriApi {
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
+
+        statsRepository.incrementAccessStats(id);
 
         return new ResponseEntity<Void>(responseHeaders, HttpStatus.TEMPORARY_REDIRECT);
     }

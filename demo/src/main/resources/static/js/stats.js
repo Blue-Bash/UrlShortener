@@ -38,6 +38,7 @@ function startSockJS(){
       updateField(json, "cpu.usage", 100, 2);
       updateField(json, "system.cpu.usage", 100, 2);
       updateField(json, "system.memory.usage", 1/(1048576), 2);
+      $("#disconnectAlert").hide();
     });
   });
 
@@ -45,5 +46,6 @@ function startSockJS(){
 
 $(document).ready(
     function () {
+      $("#disconnectAlert").hide();
       startSockJS();
     });

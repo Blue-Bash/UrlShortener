@@ -46,8 +46,10 @@ public class CheckApiController implements CheckApi {
         try {
             HttpStatus httpStatus = HttpStatus.valueOf(c.makeRequest(uri.getRedirection()));
 
+            if (httpStatus != HttpStatus.OK) {
+                return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            }
             return new ResponseEntity<Void>(httpStatus);
-
         } catch (IOException e) {
             throw new InvalidRequestParametersException(HttpStatus.BAD_REQUEST.value(), "There was a problem with the parameters.");
         }

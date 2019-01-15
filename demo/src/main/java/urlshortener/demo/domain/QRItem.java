@@ -1,31 +1,28 @@
 package urlshortener.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageConfig;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import java.io.ByteArrayOutputStream;
+import java.util.Base64;
 import java.util.Objects;
 
 // Libraries for QR Generation
-import com.google.zxing.*;
-import com.google.zxing.common.BitMatrix;
-
-import com.google.zxing.client.j2se.*;
-import java.util.Base64;
-import java.io.ByteArrayOutputStream;
 
 /**
  * QRItem
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2018-11-23T14:33:33.583Z[GMT]")
-@Entity
 public class QRItem implements BaseEntity<String>{
-  @Id
   @JsonProperty("uri")
   private String uri = null;
 
